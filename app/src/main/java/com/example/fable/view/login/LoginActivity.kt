@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fable.databinding.ActivityLoginBinding
-import com.example.fable.data.pref.UserModel
+import com.example.fable.data.local.pref.UserModel
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.main.MainActivity
 

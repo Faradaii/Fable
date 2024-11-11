@@ -1,4 +1,4 @@
-package com.example.fable.data.pref
+package com.example.fable.data.local.pref
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,7 +1,7 @@
 package com.example.fable.data
 
-import com.example.fable.data.pref.UserModel
-import com.example.fable.data.pref.UserPreference
+import com.example.fable.data.local.pref.UserModel
+import com.example.fable.data.local.pref.UserPreference
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository private constructor(
