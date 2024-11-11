@@ -5,6 +5,8 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -47,21 +49,81 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            viewModel.saveSession(UserModel(email, "sample_token"))
-            AlertDialog.Builder(this).apply {
-                setTitle("Yeah!")
-                setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
-                setPositiveButton("Lanjut") { _, _ ->
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
+            val email = binding.edLoginEmail.text.toString()
+            val password = binding.edLoginPassword.text.toString()
+
+            if (validateInput(email, password)) {
+                viewModel.saveSession(UserModel(email, "sample_token"))
+                AlertDialog.Builder(this).apply {
+                    setTitle("Yeah!")
+                    setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
+                    setPositiveButton("Lanjut") { _, _ ->
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                    }
+                    create()
+                    show()
                 }
-                create()
-                show()
             }
         }
+
+        setupTextWatchers()
+    }
+
+    private fun validateInput(email: String, password: String): Boolean {
+        val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$"
+        val isEmailValid = email.matches(Regex(emailPattern))
+
+        binding.emailEditTextLayout.error = when {
+            email.isEmpty() -> "Email tidak boleh kosong"
+            !isEmailValid -> "Email tidak valid"
+            else -> null
+        }
+
+        binding.passwordEditTextLayout.error = when {
+            password.isEmpty() -> "Password tidak boleh kosong"
+            password.length < 8 -> "Password tidak boleh kurang dari 8 karakter"
+            else -> null
+        }
+
+        return binding.emailEditTextLayout.error == null && binding.passwordEditTextLayout.error == null
+    }
+
+    private fun setupTextWatchers() {
+
+        binding.edLoginEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$"
+                val isEmailValid = s.toString().matches(Regex(emailPattern))
+
+                binding.emailEditTextLayout.error = when {
+                    s.isNullOrEmpty() -> "Email tidak boleh kosong"
+                    !isEmailValid -> "Email tidak valid"
+                    else -> null
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.passwordEditTextLayout.error = when {
+                    s.isNullOrEmpty() -> "Password tidak boleh kosong"
+                    s.length < 8 -> "Password tidak boleh kurang dari 8 karakter"
+                    else -> null
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
     }
 
     private fun playAnimation() {
