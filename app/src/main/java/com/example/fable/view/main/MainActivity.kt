@@ -11,6 +11,7 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fable.databinding.ActivityMainBinding
+import com.example.fable.view.HomeActivity
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.welcome.WelcomeActivity
 
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
+            } else {
+                startActivity(Intent(this, HomeActivity::class.java))
             }
         }
 

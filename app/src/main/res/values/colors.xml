@@ -13,5 +13,6 @@
     <color name="teal_light">#AAD8D3</color>
     <color name="teal">#00ADB5</color>
     <color name="dark">#393E46</color>
+    <color name="gray_light">#D3D3D3</color>
 
 </resources>
