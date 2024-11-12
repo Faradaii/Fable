@@ -18,6 +18,7 @@ import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
 import com.example.fable.data.local.pref.UserModel
+import com.example.fable.view.HomeActivity
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.main.MainActivity
 
@@ -70,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                                     setTitle("Yeah!")
                                     setMessage(result.data.message)
                                     setPositiveButton("Lanjut") { _, _ ->
-                                        val intent = Intent(context, MainActivity::class.java)
+                                        val intent = Intent(context, HomeActivity::class.java)
                                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                         startActivity(intent)
                                         finish()

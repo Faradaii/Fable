@@ -1,10 +1,11 @@
 package com.example.fable.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.fable.data.local.pref.UserModel
 import com.example.fable.data.local.pref.UserPreference
+import com.example.fable.data.remote.response.GetAllResponse
+import com.example.fable.data.remote.response.GetDetailResponse
 import com.example.fable.data.remote.response.LoginResponse
 import com.example.fable.data.remote.response.MessageResponse
 import com.example.fable.data.remote.retrofit.ApiService
@@ -12,7 +13,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
-class UserRepository private constructor(
+class StoryRepository private constructor(
     private val apiService: ApiService,
     private val userPreference: UserPreference
 ) {
@@ -52,6 +53,18 @@ class UserRepository private constructor(
         }
     }
 
+    fun getAllStories(): LiveData<Result<GetAllResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getAllStories()
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
+            emit(Result.Error(errorResponse.message ?: "An error occurred"))
+        }
+    }
+
     private suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
@@ -64,15 +77,27 @@ class UserRepository private constructor(
         userPreference.logout()
     }
 
+    fun getStory(storyId: String): LiveData<Result<GetDetailResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getDetailStory(storyId)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
+            emit(Result.Error(errorResponse.message ?: "An error occurred"))
+        }
+    }
+
     companion object {
         @Volatile
-        private var instance: UserRepository? = null
+        private var instance: StoryRepository? = null
         fun getInstance(
             apiService: ApiService,
             userPreference: UserPreference
-        ): UserRepository =
+        ): StoryRepository =
             instance ?: synchronized(this) {
-                instance ?: UserRepository(apiService , userPreference)
+                instance ?: StoryRepository(apiService , userPreference)
             }.also { instance = it }
     }
 }

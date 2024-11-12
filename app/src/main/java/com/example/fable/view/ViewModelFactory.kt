@@ -3,13 +3,15 @@ package com.example.fable.view
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.fable.data.UserRepository
+import com.example.fable.data.StoryRepository
 import com.example.fable.di.Injection
+import com.example.fable.view.detail.DetailViewModel
+import com.example.fable.view.home.HomeViewModel
 import com.example.fable.view.login.LoginViewModel
 import com.example.fable.view.main.MainViewModel
 import com.example.fable.view.signup.SignupViewModel
 
-class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(private val repository: StoryRepository) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -22,6 +24,12 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
                 SignupViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

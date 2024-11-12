@@ -1,12 +1,9 @@
 package com.example.fable.view.login
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.fable.data.UserRepository
-import com.example.fable.data.local.pref.UserModel
-import kotlinx.coroutines.launch
+import com.example.fable.data.StoryRepository
 
-class LoginViewModel(private val repository: UserRepository) : ViewModel() {
+class LoginViewModel(private val repository: StoryRepository) : ViewModel() {
     fun login(email: String, password: String) =
         repository.login(email, password)
 }

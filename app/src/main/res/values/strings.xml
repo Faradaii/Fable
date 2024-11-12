@@ -21,4 +21,18 @@
     <string name="checkbox_agree">By signing up, you agree to our Terms of Service and Privacy Policy</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">Sign In</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="profile">Profile</string>
+    <string name="create">Create</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description">description</string>
+    <string name="storyicon">StoryIcon</string>
+    <string name="story">Story</string>
+    <string name="photo">Photo</string>
+    <string name="avatar_user">avatar user</string>
+    <string name="date">Date</string>
 </resources>
