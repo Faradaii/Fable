@@ -2,16 +2,26 @@ package com.example.fable.view.signup
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fable.customView.CustomEditText
 import com.example.fable.databinding.ActivitySignupBinding
+import com.example.fable.view.ViewModelFactory
+import com.example.fable.data.Result
+import com.example.fable.view.login.LoginActivity
 
 class SignupActivity : AppCompatActivity() {
+    private val viewModel by viewModels<SignupViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
     private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,22 +49,94 @@ class SignupActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.signupButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
+            val name = binding.edRegisterName.text.toString()
+            val email = binding.edRegisterEmail.text.toString()
+            val password = binding.edRegisterPassword.text.toString()
 
-            AlertDialog.Builder(this).apply {
-                setTitle("Yeah!")
-                setMessage("Akun dengan $email sudah jadi nih. Yuk, login dan belajar coding.")
-                setPositiveButton("Lanjut") { _, _ ->
-                    finish()
+            if (validateInput(name, email, password)) {
+                viewModel.register(name, email, password).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Result.Loading -> {
+                                Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                            }
+                            is Result.Error -> {
+                                Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                            }
+                            is Result.Success -> {
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Yeah!")
+                                    setMessage(result.data.message)
+                                    setPositiveButton("Lanjut") { _, _ ->
+                                        val intent = Intent(context, LoginActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                    create()
+                                    show()
+                                }
+                            }
+                        }
+                    }
                 }
-                create()
-                show()
             }
         }
+
+        setupTextWatchers()
+    }
+
+    private fun validateInput(name: String, email: String, password: String): Boolean {
+        binding.nameEditTextLayout.error = when {
+            name.isEmpty() -> "Name tidak boleh kosong"
+            else -> null
+        }
+
+        binding.emailEditTextLayout.error = when {
+            email.isEmpty() -> "Email tidak boleh kosong"
+            else -> null
+        }
+
+        binding.passwordEditTextLayout.error = when {
+            password.isEmpty() -> "Password tidak boleh kosong"
+            else -> null
+        }
+
+        binding.checkboxEditTextLayout.error = when {
+            !binding.checkBox.isChecked -> "You must agree to the terms to proceed."
+            else -> null
+        }
+
+        return binding.nameEditTextLayout.error == null && binding.emailEditTextLayout.error == null && binding.passwordEditTextLayout.error == null && binding.checkboxEditTextLayout.error == null
+    }
+
+    private fun setupTextWatchers() {
+
+        binding.edRegisterName.apply {
+            setInputLayout(binding.nameEditTextLayout)
+            setValidationType(CustomEditText.ValidationType.NAME)
+        }
+
+        binding.edRegisterEmail.apply {
+            setInputLayout(binding.emailEditTextLayout)
+            setValidationType(CustomEditText.ValidationType.EMAIL)
+        }
+
+        binding.edRegisterPassword.apply {
+            setInputLayout(binding.passwordEditTextLayout)
+            setValidationType(CustomEditText.ValidationType.PASSWORD)
+        }
+
+        binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.checkboxEditTextLayout.error = null
+            }
+        }
+
     }
 
     private fun playAnimation() {
-        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
+        ObjectAnimator.ofFloat(binding.imageView2, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
@@ -73,6 +155,8 @@ class SignupActivity : AppCompatActivity() {
             ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(100)
         val passwordEditTextLayout =
             ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
+        val checkboxEditTextLayout =
+            ObjectAnimator.ofFloat(binding.checkboxEditTextLayout, View.ALPHA, 1f).setDuration(100)
         val signup = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(100)
 
 
@@ -85,6 +169,7 @@ class SignupActivity : AppCompatActivity() {
                 emailEditTextLayout,
                 passwordTextView,
                 passwordEditTextLayout,
+                checkboxEditTextLayout,
                 signup
             )
             startDelay = 100

@@ -63,6 +63,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:contentDescription="@string/logo_application"
         android:src="@drawable/image_dicoding"
         app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontal3"
         app:layout_constraintEnd_toEndOf="parent"
