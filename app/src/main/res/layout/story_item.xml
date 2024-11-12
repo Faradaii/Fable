@@ -36,34 +36,32 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
-            app:strokeColor="@color/gray_light"
-            app:strokeWidth="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/gray_light"
+            app:strokeWidth="2dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_story_image"
-                android:transitionName="iv_story_avatar"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/name"
                 android:scaleType="centerCrop"
+                android:transitionName="iv_story_avatar"
                 app:layout_optimizationLevel="ratio"
                 tools:srcCompat="@tools:sample/backgrounds/scenic[0]" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/tv_story_desc"
-            android:transitionName="tv_story_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
@@ -71,6 +69,7 @@
             android:minLines="1"
             android:text="@string/description"
             android:textSize="14sp"
+            android:transitionName="tv_story_desc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
@@ -79,31 +78,29 @@
 
         <TextView
             android:id="@+id/tv_story_name"
-            android:transitionName="tv_story_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:maxLines="1"
             android:text="@string/name"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:transitionName="tv_story_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_avatar_random" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_avatar_random"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="42dp"
-            android:layout_marginBottom="10dp"
-            android:scaleType="centerCrop"
+            android:layout_marginBottom="8dp"
             android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/tv_story_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
             app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
             app:strokeColor="@color/gray_light"
             app:strokeWidth="2dp"
