@@ -10,9 +10,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fable.customView.CustomEditText
+import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
 import com.example.fable.data.local.pref.UserModel
 import com.example.fable.view.ViewModelFactory
@@ -53,18 +56,31 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.edLoginPassword.text.toString()
 
             if (validateInput(email, password)) {
-                viewModel.saveSession(UserModel(email, "sample_token"))
-                AlertDialog.Builder(this).apply {
-                    setTitle("Yeah!")
-                    setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
-                    setPositiveButton("Lanjut") { _, _ ->
-                        val intent = Intent(context, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                        finish()
+                viewModel.login(email, password).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Result.Loading -> {
+                                Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                            }
+                            is Result.Error -> {
+                                Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                            }
+                            is Result.Success -> {
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Yeah!")
+                                    setMessage(result.data.message)
+                                    setPositiveButton("Lanjut") { _, _ ->
+                                        val intent = Intent(context, MainActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                    create()
+                                    show()
+                                }
+                            }
+                        }
                     }
-                    create()
-                    show()
                 }
             }
         }
@@ -73,56 +89,29 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun validateInput(email: String, password: String): Boolean {
-        val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$"
-        val isEmailValid = email.matches(Regex(emailPattern))
-
         binding.emailEditTextLayout.error = when {
             email.isEmpty() -> "Email tidak boleh kosong"
-            !isEmailValid -> "Email tidak valid"
             else -> null
         }
 
         binding.passwordEditTextLayout.error = when {
             password.isEmpty() -> "Password tidak boleh kosong"
-            password.length < 8 -> "Password tidak boleh kurang dari 8 karakter"
             else -> null
         }
-
         return binding.emailEditTextLayout.error == null && binding.passwordEditTextLayout.error == null
     }
 
     private fun setupTextWatchers() {
 
-        binding.edLoginEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        binding.edLoginEmail.apply {
+            setInputLayout(binding.emailEditTextLayout)
+            setValidationType(CustomEditText.ValidationType.EMAIL)
+        }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$"
-                val isEmailValid = s.toString().matches(Regex(emailPattern))
-
-                binding.emailEditTextLayout.error = when {
-                    s.isNullOrEmpty() -> "Email tidak boleh kosong"
-                    !isEmailValid -> "Email tidak valid"
-                    else -> null
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.passwordEditTextLayout.error = when {
-                    s.isNullOrEmpty() -> "Password tidak boleh kosong"
-                    s.length < 8 -> "Password tidak boleh kurang dari 8 karakter"
-                    else -> null
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        binding.edLoginPassword.apply {
+            setInputLayout(binding.passwordEditTextLayout)
+            setValidationType(CustomEditText.ValidationType.PASSWORD)
+        }
 
     }
 

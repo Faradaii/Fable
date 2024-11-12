@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.android.image.cropper)
     implementation(libs.retrofit)
+    implementation(libs.logging.interceptor)
     implementation(libs.converter.gson)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.runtime)
