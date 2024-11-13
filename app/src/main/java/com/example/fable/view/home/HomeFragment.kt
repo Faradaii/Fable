@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
                         showState(isLoading = true)
                     }
                     is Result.Error -> {
-                        showState(isError = true)
+                        showState(isError = true, errorMessage = result.error)
                     }
                     is Result.Success -> {
                         if (result.data.listStory.isEmpty()) {
@@ -87,11 +87,13 @@ class HomeFragment : Fragment() {
         isEmpty: Boolean = false,
         isError: Boolean = false,
         isLoading: Boolean = false,
+        errorMessage: String = "",
     ) {
         binding.gridStories.apply {
             rvStories.visibility = if (isShowStories) View.VISIBLE else View.GONE
             stateEmpty.emptyStateContainer.visibility = if (isEmpty) View.VISIBLE else View.GONE
             stateError.errorStateContainer.visibility = if (isError) View.VISIBLE else View.GONE
+            stateError.tvHeadError.text = if (isError) errorMessage else ""
             stateLoading.loadingStateContainer.visibility =
                 if (isLoading) View.VISIBLE else View.GONE
         }

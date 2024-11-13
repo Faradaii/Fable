@@ -45,7 +45,7 @@ class DetailFragment : Fragment() {
                         showState(isLoading = true)
                     }
                     is Result.Error -> {
-                        showState(isError = true)
+                        showState(isError = true, errorMessage = result.error)
                     }
                     is Result.Success -> {
                         if (result.data.story == null) {
@@ -87,11 +87,13 @@ class DetailFragment : Fragment() {
         isEmpty: Boolean = false,
         isError: Boolean = false,
         isLoading: Boolean = false,
+        errorMessage: String = "",
     ) {
         binding.apply {
             constraintDetail.visibility = if (isShowStory) View.VISIBLE else View.GONE
             stateEmpty.emptyStateContainer.visibility = if (isEmpty) View.VISIBLE else View.GONE
             stateError.errorStateContainer.visibility = if (isError) View.VISIBLE else View.GONE
+            stateError.tvHeadError.text = if (isError) errorMessage else ""
             stateLoading.loadingStateContainer.visibility =
                 if (isLoading) View.VISIBLE else View.GONE
         }

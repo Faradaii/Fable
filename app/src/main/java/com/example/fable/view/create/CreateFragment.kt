@@ -18,8 +18,8 @@ import com.example.fable.data.Result
 import com.example.fable.databinding.FragmentCreateBinding
 import com.example.fable.util.Util.reduceFileImage
 import com.example.fable.util.Util.uriToFile
-import com.example.fable.view.MySnackBar
 import com.example.fable.view.ViewModelFactory
+import com.example.fable.view.snackbar.MySnackBar
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

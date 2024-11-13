@@ -17,9 +17,9 @@ import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
 import com.example.fable.view.HomeActivity
-import com.example.fable.view.MySnackBar
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.signup.SignupActivity
+import com.example.fable.view.snackbar.MySnackBar
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -60,12 +60,12 @@ class LoginActivity : AppCompatActivity() {
                     if (result != null) {
                         when (result) {
                             is Result.Loading -> {
-                                Toast.makeText(this, "Please Wait...", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Logging you in...", Toast.LENGTH_SHORT).show()
                             }
                             is Result.Error -> {
                                 MySnackBar.showSnackBar(
                                     binding.root,
-                                    "Login Failed, Please Try Again"
+                                    result.error
                                 )
                             }
                             is Result.Success -> {

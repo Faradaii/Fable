@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivitySignupBinding
-import com.example.fable.view.MySnackBar
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.login.LoginActivity
+import com.example.fable.view.snackbar.MySnackBar
 
 class SignupActivity : AppCompatActivity() {
     private val viewModel by viewModels<SignupViewModel> {
@@ -69,7 +69,7 @@ class SignupActivity : AppCompatActivity() {
                             is Result.Error -> {
                                 MySnackBar.showSnackBar(
                                     binding.root,
-                                    "Register Failed, Please Try Again"
+                                    result.error
                                 )
                             }
                             is Result.Success -> {
