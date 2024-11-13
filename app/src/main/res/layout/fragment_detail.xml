@@ -56,7 +56,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/iv_image"
+        android:id="@+id/iv_detail_photo"
         android:contentDescription="@string/photo"
         android:transitionName="iv_story_image"
         android:layout_width="0dp"
@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/tv_desc"
+            android:id="@+id/tv_detail_description"
             android:transitionName="tv_story_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_detail_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"

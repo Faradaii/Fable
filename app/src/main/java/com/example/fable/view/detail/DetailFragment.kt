@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.example.fable.BuildConfig
 import com.example.fable.R
 import com.example.fable.databinding.FragmentDetailBinding
 import com.example.fable.view.ViewModelFactory
@@ -49,19 +50,19 @@ class DetailFragment : Fragment() {
                     }
                     is Result.Success -> {
                         binding.apply {
-                            tvName.text = result.data.story!!.name
-                            tvDesc.text = result.data.story.description
+                            tvDetailName.text = result.data.story!!.name
+                            tvDetailDescription.text = result.data.story.description
                             tvDate.text = Util.formatDate(result.data.story.createdAt.toString())
 
                             Glide.with(root.context)
                                 .load(result.data.story.photoUrl)
                                 .placeholder(R.drawable.ic_image_24).fitCenter()
                                 .error(R.drawable.ic_image_24).fitCenter()
-                                .into(ivImage)
+                                .into(ivDetailPhoto)
 
                             Glide.with(root.context)
-                                .load("https://avatar.iran.liara.run/public")
-                                .signature(ObjectKey(result.data.story.id.toString()))
+                                .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
+                                .signature(ObjectKey(result.data.story.name.toString()))
                                 .placeholder(R.drawable.resource_public)
                                 .error(R.drawable.resource_public)
                                 .into(ivAvatar)

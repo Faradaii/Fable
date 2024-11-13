@@ -22,6 +22,7 @@ constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.8.3"
 navigationUiKtx = "2.8.3"
 activity = "1.9.3"
+swiperefreshlayout = "1.2.0-alpha01"
 
 [libraries]
 android-image-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropper" }
@@ -34,6 +35,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-room-common = { module = "androidx.room:room-common", version.ref = "roomCommon" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCommon" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCommon" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
