@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
@@ -29,10 +28,8 @@ class CreateFragment : Fragment() {
 
     private var _binding: FragmentCreateBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: CreateViewModel
 
-    private val viewModel: CreateViewModel by viewModels {
-        ViewModelFactory.getInstance(requireActivity())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +40,8 @@ class CreateFragment : Fragment() {
         _binding = FragmentCreateBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        viewModel =
+            ViewModelFactory.getInstance(requireActivity()).create(CreateViewModel::class.java)
         viewModel.currentImageUri?.let { showImage(it) }
 
         return root

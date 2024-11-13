@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -37,6 +38,8 @@ class DetailFragment : Fragment() {
         val viewModel: DetailViewModel by viewModels {
             factory
         }
+
+        binding.root.setBackgroundColor(ContextCompat.getColor(view.context, R.color.black))
 
         viewModel.load(ARG_STORY_ID).observe(viewLifecycleOwner) { result ->
             if (result != null) {
