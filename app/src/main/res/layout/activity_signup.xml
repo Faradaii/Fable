@@ -50,16 +50,19 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/linear_asking_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:orientation="horizontal"
+                android:alpha="0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signupButton">
+                app:layout_constraintTop_toBottomOf="@+id/signupButton"
+                tools:alpha="100">
 
                 <TextView
                     android:id="@+id/textView"
@@ -71,14 +74,14 @@
                     android:text="@string/already_have_an_account" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tv_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="32dp"
                     android:text="@string/login"
-                    android:textColor="@color/teal_200" />
+                    android:textColor="@color/md_theme_primary" />
             </LinearLayout>
 
             <TextView
@@ -121,7 +124,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:alpha="0"
-                app:boxStrokeColor="@color/teal"
+                app:boxStrokeColor="@color/md_theme_primary"
                 app:boxStrokeWidth="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +150,7 @@
                 android:alpha="0"
                 android:text="@string/email"
                 android:textColor="@color/black"
-                app:boxStrokeColor="@color/teal"
+                app:boxStrokeColor="@color/md_theme_primary"
                 app:boxStrokeWidth="1dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout"
@@ -162,7 +165,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:alpha="0"
-                app:boxStrokeColor="@color/teal"
+                app:boxStrokeColor="@color/md_theme_primary"
                 app:boxStrokeWidth="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -201,7 +204,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:alpha="0"
-                app:boxStrokeColor="@color/teal"
+                app:boxStrokeColor="@color/md_theme_primary"
                 app:boxStrokeWidth="1dp"
                 app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -228,7 +231,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:alpha="0"
-                android:backgroundTint="@color/teal"
+                android:backgroundTint="@color/md_theme_primary"
                 android:text="@string/signup"
                 app:cornerRadius="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -253,7 +256,7 @@
                     android:id="@+id/checkBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/teal_700"
+                    android:buttonTint="@color/md_theme_primary"
                     android:text="@string/checkbox_agree"
                     android:textSize="12sp" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -9,7 +9,7 @@ import com.example.fable.view.create.CreateViewModel
 import com.example.fable.view.detail.DetailViewModel
 import com.example.fable.view.home.HomeViewModel
 import com.example.fable.view.login.LoginViewModel
-import com.example.fable.view.main.MainViewModel
+import com.example.fable.view.profile.ProfileViewModel
 import com.example.fable.view.signup.SignupViewModel
 
 class ViewModelFactory(private val repository: StoryRepository) : ViewModelProvider.NewInstanceFactory() {
@@ -17,9 +17,6 @@ class ViewModelFactory(private val repository: StoryRepository) : ViewModelProvi
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(repository) as T
-            }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
             }
@@ -34,6 +31,9 @@ class ViewModelFactory(private val repository: StoryRepository) : ViewModelProvi
             }
             modelClass.isAssignableFrom(CreateViewModel::class.java) -> {
                 CreateViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
+                ProfileViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

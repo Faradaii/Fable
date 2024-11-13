@@ -5,22 +5,21 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
-import com.example.fable.data.local.pref.UserModel
 import com.example.fable.view.HomeActivity
+import com.example.fable.view.MySnackBar
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.main.MainActivity
+import com.example.fable.view.signup.SignupActivity
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -61,24 +60,26 @@ class LoginActivity : AppCompatActivity() {
                     if (result != null) {
                         when (result) {
                             is Result.Loading -> {
-                                Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Please Wait...", Toast.LENGTH_SHORT).show()
                             }
                             is Result.Error -> {
-                                Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                                MySnackBar.showSnackBar(
+                                    binding.root,
+                                    "Login Failed, Please Try Again"
+                                )
                             }
                             is Result.Success -> {
-                                AlertDialog.Builder(this).apply {
-                                    setTitle("Yeah!")
-                                    setMessage(result.data.message)
-                                    setPositiveButton("Lanjut") { _, _ ->
-                                        val intent = Intent(context, HomeActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                        startActivity(intent)
-                                        finish()
-                                    }
-                                    create()
-                                    show()
-                                }
+                                MySnackBar.showSnackBar(
+                                    binding.root,
+                                    "Welcome Back, ${result.data.loginResult!!.name} !"
+                                )
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    val intent = Intent(this, HomeActivity::class.java)
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    startActivity(intent)
+                                    finish()
+                                }, 1000)
                             }
                         }
                     }
@@ -86,17 +87,23 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        binding.tvSignup.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         setupTextWatchers()
     }
 
     private fun validateInput(email: String, password: String): Boolean {
         binding.emailEditTextLayout.error = when {
-            email.isEmpty() -> "Email tidak boleh kosong"
+            email.isEmpty() -> "Email cannot be empty"
             else -> null
         }
 
         binding.passwordEditTextLayout.error = when {
-            password.isEmpty() -> "Password tidak boleh kosong"
+            password.isEmpty() -> "Password cannot be empty"
             else -> null
         }
         return binding.emailEditTextLayout.error == null && binding.passwordEditTextLayout.error == null
@@ -135,6 +142,8 @@ class LoginActivity : AppCompatActivity() {
         val passwordEditTextLayout =
             ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
         val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(100)
+        val askingSignup =
+            ObjectAnimator.ofFloat(binding.linearAskingSignup, View.ALPHA, 1f).setDuration(100)
 
         AnimatorSet().apply {
             playSequentially(
@@ -144,7 +153,8 @@ class LoginActivity : AppCompatActivity() {
                 emailEditTextLayout,
                 passwordTextView,
                 passwordEditTextLayout,
-                login
+                login,
+                askingSignup
             )
             startDelay = 100
         }.start()

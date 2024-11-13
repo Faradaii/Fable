@@ -28,7 +28,7 @@ object Util {
         }
     }
 
-    fun createCustomTempFile(context: Context): File {
+    private fun createCustomTempFile(context: Context): File {
         val timeStamp = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(Date())
         val filesDir = context.externalCacheDir
         return File.createTempFile(timeStamp, ".jpg", filesDir)

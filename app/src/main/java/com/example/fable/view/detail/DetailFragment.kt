@@ -1,20 +1,19 @@
 package com.example.fable.view.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.example.fable.BuildConfig
 import com.example.fable.R
-import com.example.fable.databinding.FragmentDetailBinding
-import com.example.fable.view.ViewModelFactory
 import com.example.fable.data.Result
+import com.example.fable.databinding.FragmentDetailBinding
 import com.example.fable.util.Util
+import com.example.fable.view.ViewModelFactory
 
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
@@ -43,38 +42,58 @@ class DetailFragment : Fragment() {
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+                        showState(isLoading = true)
                     }
                     is Result.Error -> {
-                        Toast.makeText(context, result.error, Toast.LENGTH_SHORT).show()
+                        showState(isError = true)
                     }
                     is Result.Success -> {
-                        binding.apply {
-                            tvDetailName.text = result.data.story!!.name
-                            tvDetailDescription.text = result.data.story.description
-                            tvDate.text = Util.formatDate(result.data.story.createdAt.toString())
+                        if (result.data.story == null) {
+                            showState(isEmpty = true)
+                        } else {
+                            showState(isShowStory = true)
+                            binding.apply {
+                                tvDetailName.text = result.data.story.name
+                                tvDetailDescription.text = result.data.story.description
+                                tvDate.text =
+                                    Util.formatDate(result.data.story.createdAt.toString())
 
-                            Glide.with(root.context)
-                                .load(result.data.story.photoUrl)
-                                .placeholder(R.drawable.ic_image_24).fitCenter()
-                                .error(R.drawable.ic_image_24).fitCenter()
-                                .into(ivDetailPhoto)
+                                Glide.with(root.context)
+                                    .load(result.data.story.photoUrl)
+                                    .placeholder(R.drawable.ic_image_24).fitCenter()
+                                    .error(R.drawable.ic_image_24).fitCenter()
+                                    .into(ivDetailPhoto)
 
-                            Glide.with(root.context)
-                                .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
-                                .signature(ObjectKey(result.data.story.name.toString()))
-                                .placeholder(R.drawable.resource_public)
-                                .error(R.drawable.resource_public)
-                                .into(ivAvatar)
+                                Glide.with(root.context)
+                                    .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
+                                    .signature(ObjectKey(result.data.story.name.toString()))
+                                    .placeholder(R.drawable.resource_public)
+                                    .error(R.drawable.resource_public)
+                                    .into(ivAvatar)
 
-                            close.setOnClickListener{
-                                requireActivity().onBackPressedDispatcher.onBackPressed()
                             }
                         }
-                        Toast.makeText(context, result.data.story!!.name, Toast.LENGTH_SHORT).show()
+                        binding.close.setOnClickListener {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun showState(
+        isShowStory: Boolean = false,
+        isEmpty: Boolean = false,
+        isError: Boolean = false,
+        isLoading: Boolean = false,
+    ) {
+        binding.apply {
+            constraintDetail.visibility = if (isShowStory) View.VISIBLE else View.GONE
+            stateEmpty.emptyStateContainer.visibility = if (isEmpty) View.VISIBLE else View.GONE
+            stateError.errorStateContainer.visibility = if (isError) View.VISIBLE else View.GONE
+            stateLoading.loadingStateContainer.visibility =
+                if (isLoading) View.VISIBLE else View.GONE
         }
     }
 

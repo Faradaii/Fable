@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="64dp"
-                android:text="Update Your Life"
+                android:text="@string/update_your_life"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:text="Create your own life story in Fable!"
+                android:text="@string/update_your_life_body"
                 android:textSize="14sp" />
 
             <ImageView
@@ -55,11 +55,11 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:contentDescription="preview image"
+                android:contentDescription="@string/preview_image"
                 app:srcCompat="@drawable/ic_image_24" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/linear_asking_login"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -75,8 +75,8 @@
                     android:layout_marginEnd="32dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="Add Photo"
-                    android:textColor="@color/white"
+                    android:text="@string/add_photo"
+                    android:textColor="@color/md_theme_onPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +96,7 @@
                     app:boxCornerRadiusTopEnd="5dp"
                     app:boxCornerRadiusTopStart="5dp"
                     app:boxStrokeWidth="2dp"
-                    app:boxStrokeColor="@color/teal"
+                    app:boxStrokeColor="@color/md_theme_primary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/addPhotoButton">
@@ -126,10 +126,10 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="24dp"
-                    android:backgroundTint="@color/teal"
+                    android:backgroundTint="@color/md_theme_primary"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="Upload Story"
+                    android:text="@string/upload_story"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

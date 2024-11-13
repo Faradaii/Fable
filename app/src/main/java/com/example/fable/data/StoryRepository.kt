@@ -10,7 +10,10 @@ import com.example.fable.data.remote.response.LoginResponse
 import com.example.fable.data.remote.response.MessageResponse
 import com.example.fable.data.remote.retrofit.ApiService
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
@@ -38,7 +41,6 @@ class StoryRepository private constructor(
         emit(Result.Loading)
         try {
             val message = apiService.login(email, password)
-            emit(Result.Success(message))
             val userLogged = UserModel(
                 message.loginResult!!.userId.toString(),
                 email,
@@ -47,6 +49,7 @@ class StoryRepository private constructor(
                 true
             )
             saveSession(userLogged)
+            emit(Result.Success(message))
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, MessageResponse::class.java)
@@ -58,7 +61,10 @@ class StoryRepository private constructor(
     fun getAllStories(): LiveData<Result<GetAllResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getAllStories()
+            val response = withContext(Dispatchers.IO) {
+                apiService.getAllStories()
+            }
+            delay(2000)
             emit(Result.Success(response))
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
@@ -79,6 +85,18 @@ class StoryRepository private constructor(
         }
     }
 
+    fun getStory(storyId: String): LiveData<Result<GetDetailResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getDetailStory(storyId)
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
+            emit(Result.Error(errorResponse.message ?: "An error occurred"))
+        }
+    }
+
     private suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
@@ -91,17 +109,6 @@ class StoryRepository private constructor(
         userPreference.logout()
     }
 
-    fun getStory(storyId: String): LiveData<Result<GetDetailResponse>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getDetailStory(storyId)
-            emit(Result.Success(response))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
-            emit(Result.Error(errorResponse.message ?: "An error occurred"))
-        }
-    }
 
     companion object {
         @Volatile
