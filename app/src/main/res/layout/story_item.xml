@@ -43,6 +43,7 @@
             app:strokeWidth="2dp">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_item_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="0dp"
@@ -57,6 +58,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
+            android:id="@+id/tv_story_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -94,6 +96,7 @@
 
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_avatar_random"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
