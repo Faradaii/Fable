@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class StoryRepository private constructor(
     private val apiService: ApiService,
@@ -32,8 +33,11 @@ class StoryRepository private constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
-            emit(Result.Error(errorResponse.message ?: "An error occurred"))
-
+            emit(Result.Error(errorResponse.message!!))
+        } catch (e: SocketTimeoutException) {
+            emit(Result.Error("Request timed out. Please try again."))
+        } catch (e: Exception) {
+            emit(Result.Error("An unexpected error occurred"))
         }
     }
 
@@ -52,9 +56,12 @@ class StoryRepository private constructor(
             emit(Result.Success(message))
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, MessageResponse::class.java)
-            val errorMessage = errorBody.message
-            emit(Result.Error(errorMessage ?: "An error occurred"))
+            val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
+            emit(Result.Error(errorResponse.message!!))
+        } catch (e: SocketTimeoutException) {
+            emit(Result.Error("Request timed out. Please try again."))
+        } catch (e: Exception) {
+            emit(Result.Error("An unexpected error occurred"))
         }
     }
 
@@ -69,7 +76,11 @@ class StoryRepository private constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
-            emit(Result.Error(errorResponse.message ?: "An error occurred"))
+            emit(Result.Error(errorResponse.message!!))
+        } catch (e: SocketTimeoutException) {
+            emit(Result.Error("Request timed out. Please try again."))
+        } catch (e: Exception) {
+            emit(Result.Error("An unexpected error occurred"))
         }
     }
 
@@ -81,7 +92,11 @@ class StoryRepository private constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
-            emit(Result.Error(errorResponse.message ?: "An error occurred"))
+            emit(Result.Error(errorResponse.message!!))
+        } catch (e: SocketTimeoutException) {
+            emit(Result.Error("Request timed out. Please try again."))
+        } catch (e: Exception) {
+            emit(Result.Error("An unexpected error occurred"))
         }
     }
 
@@ -93,7 +108,11 @@ class StoryRepository private constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
-            emit(Result.Error(errorResponse.message ?: "An error occurred"))
+            emit(Result.Error(errorResponse.message!!))
+        } catch (e: SocketTimeoutException) {
+            emit(Result.Error("Request timed out. Please try again."))
+        } catch (e: Exception) {
+            emit(Result.Error("An unexpected error occurred"))
         }
     }
 

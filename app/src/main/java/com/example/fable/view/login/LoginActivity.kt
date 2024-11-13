@@ -11,26 +11,25 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
 import com.example.fable.view.HomeActivity
-import com.example.fable.view.MySnackBar
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.signup.SignupActivity
+import com.example.fable.view.snackbar.MySnackBar
 
 class LoginActivity : AppCompatActivity() {
-    private val viewModel by viewModels<LoginViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private lateinit var viewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelFactory.getInstance(this).create(LoginViewModel::class.java)
 
         setupView()
         setupAction()
@@ -60,12 +59,12 @@ class LoginActivity : AppCompatActivity() {
                     if (result != null) {
                         when (result) {
                             is Result.Loading -> {
-                                Toast.makeText(this, "Please Wait...", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Logging you in...", Toast.LENGTH_SHORT).show()
                             }
                             is Result.Error -> {
                                 MySnackBar.showSnackBar(
                                     binding.root,
-                                    "Login Failed, Please Try Again"
+                                    result.error
                                 )
                             }
                             is Result.Success -> {

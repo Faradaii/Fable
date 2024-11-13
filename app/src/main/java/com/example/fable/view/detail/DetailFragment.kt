@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -38,6 +39,8 @@ class DetailFragment : Fragment() {
             factory
         }
 
+        binding.root.setBackgroundColor(ContextCompat.getColor(view.context, R.color.black))
+
         viewModel.load(ARG_STORY_ID).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
@@ -45,7 +48,7 @@ class DetailFragment : Fragment() {
                         showState(isLoading = true)
                     }
                     is Result.Error -> {
-                        showState(isError = true)
+                        showState(isError = true, errorMessage = result.error)
                     }
                     is Result.Success -> {
                         if (result.data.story == null) {
@@ -87,11 +90,13 @@ class DetailFragment : Fragment() {
         isEmpty: Boolean = false,
         isError: Boolean = false,
         isLoading: Boolean = false,
+        errorMessage: String = "",
     ) {
         binding.apply {
             constraintDetail.visibility = if (isShowStory) View.VISIBLE else View.GONE
             stateEmpty.emptyStateContainer.visibility = if (isEmpty) View.VISIBLE else View.GONE
             stateError.errorStateContainer.visibility = if (isError) View.VISIBLE else View.GONE
+            stateError.tvHeadError.text = if (isError) errorMessage else ""
             stateLoading.loadingStateContainer.visibility =
                 if (isLoading) View.VISIBLE else View.GONE
         }

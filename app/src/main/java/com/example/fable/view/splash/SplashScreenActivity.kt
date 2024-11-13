@@ -11,25 +11,23 @@ import android.os.Looper
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fable.databinding.ActivitySplashScreenBinding
 import com.example.fable.view.HomeActivity
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.profile.ProfileViewModel
 import com.example.fable.view.welcome.WelcomeActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
-    private val viewModel by viewModels<ProfileViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private lateinit var viewModel: SplashScreenViewModel
     private lateinit var binding: ActivitySplashScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelFactory.getInstance(this).create(SplashScreenViewModel::class.java)
 
         viewModel.getUser().observe(this) { user ->
             if (!user.isLogin) {

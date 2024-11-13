@@ -11,25 +11,24 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivitySignupBinding
-import com.example.fable.view.MySnackBar
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.login.LoginActivity
+import com.example.fable.view.snackbar.MySnackBar
 
 class SignupActivity : AppCompatActivity() {
-    private val viewModel by viewModels<SignupViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
+    private lateinit var viewModel: SignupViewModel
     private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelFactory.getInstance(this).create(SignupViewModel::class.java)
 
         setupView()
         setupAction()
@@ -69,7 +68,7 @@ class SignupActivity : AppCompatActivity() {
                             is Result.Error -> {
                                 MySnackBar.showSnackBar(
                                     binding.root,
-                                    "Register Failed, Please Try Again"
+                                    result.error
                                 )
                             }
                             is Result.Success -> {
