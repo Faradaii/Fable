@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.example.fable.BuildConfig
 import com.example.fable.R
 import com.example.fable.data.local.entity.Story
 import com.example.fable.databinding.StoryItemBinding
@@ -34,16 +35,16 @@ class StoryItemAdapter: ListAdapter<Story, StoryItemAdapter.ViewHolder>(DIFF_CAL
                     .load(listItem.photoUrl)
                     .placeholder(R.drawable.ic_image_24)
                     .error(R.drawable.ic_image_24)
-                    .into(ivStoryImage)
+                    .into(ivItemPhoto)
 
                 Glide.with(root.context)
-                    .load("https://avatar.iran.liara.run/public")
-                    .signature(ObjectKey(listItem.id.toString()))
+                    .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
+                    .signature(ObjectKey(listItem.name.toString()))
                     .placeholder(R.drawable.resource_public)
                     .error(R.drawable.resource_public)
                     .into(ivAvatarRandom)
 
-                tvStoryName.text = listItem.name
+                tvItemName.text = listItem.name
                 tvStoryDesc.text = listItem.description
 
                 itemView.setOnClickListener {
@@ -52,9 +53,9 @@ class StoryItemAdapter: ListAdapter<Story, StoryItemAdapter.ViewHolder>(DIFF_CAL
                     val optionsCompat: ActivityOptionsCompat =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(
                             itemView.context as Activity,
-                            Pair(ivStoryImage, "iv_story_image"),
+                            Pair(ivItemPhoto, "iv_story_image"),
                             Pair(ivAvatarRandom, "iv_story_avatar"),
-                            Pair(tvStoryName, "tv_story_name"),
+                            Pair(tvItemName, "tv_story_name"),
                             Pair(tvStoryDesc, "tv_story_desc"),
                         )
                     it.context.startActivity(intent, optionsCompat.toBundle())

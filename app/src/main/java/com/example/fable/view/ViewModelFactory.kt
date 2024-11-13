@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.fable.data.StoryRepository
 import com.example.fable.di.Injection
+import com.example.fable.view.create.CreateViewModel
 import com.example.fable.view.detail.DetailViewModel
 import com.example.fable.view.home.HomeViewModel
 import com.example.fable.view.login.LoginViewModel
@@ -30,6 +31,9 @@ class ViewModelFactory(private val repository: StoryRepository) : ViewModelProvi
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(CreateViewModel::class.java) -> {
+                CreateViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

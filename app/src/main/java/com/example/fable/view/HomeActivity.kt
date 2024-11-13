@@ -1,5 +1,6 @@
 package com.example.fable.view
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.fable.R
 import com.example.fable.databinding.ActivityHomeBinding
+import com.example.fable.view.create.CreateActivity
+import com.example.fable.view.detail.DetailActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -34,6 +37,10 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
             )
         )
+        binding.floatingActionButton.setOnClickListener{
+            val intent = Intent(this, CreateActivity::class.java)
+            startActivity(intent)
+        }
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

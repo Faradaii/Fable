@@ -11,6 +11,8 @@ import com.example.fable.data.remote.response.MessageResponse
 import com.example.fable.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class StoryRepository private constructor(
@@ -57,6 +59,18 @@ class StoryRepository private constructor(
         emit(Result.Loading)
         try {
             val response = apiService.getAllStories()
+            emit(Result.Success(response))
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
+            emit(Result.Error(errorResponse.message ?: "An error occurred"))
+        }
+    }
+
+    fun addStory(multipartBody: MultipartBody.Part, requestBody: RequestBody): LiveData<Result<MessageResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.addStory(multipartBody, requestBody)
             emit(Result.Success(response))
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()

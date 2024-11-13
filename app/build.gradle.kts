@@ -15,7 +15,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", "\"https://story-api.dicoding.dev/v1/\"")
+        buildConfigField("String", "BASE_URL_STORY", "\"https://story-api.dicoding.dev/v1/\"")
+        buildConfigField("String", "BASE_URL_RANDOM_AVATAR", "\"https://avatar.iran.liara.run/public\"")
     }
 
     buildTypes {
@@ -69,5 +70,5 @@ dependencies {
     implementation(libs.jetbrains.kotlinx.coroutines.android)
     implementation(libs.material)
     implementation (libs.androidx.fragment.ktx)
-
+    implementation(libs.androidx.swiperefreshlayout)
 }

@@ -1,6 +1,7 @@
 package com.example.fable.view.home
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +14,21 @@ import com.example.fable.data.local.entity.Story
 import com.example.fable.databinding.FragmentHomeBinding
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.adapter.StoryItemAdapter
+import com.example.fable.view.alert.CustomAlertDialog
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: HomeViewModel by viewModels {
+        ViewModelFactory.getInstance(requireActivity())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -33,29 +39,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireActivity())
-        val viewModel: HomeViewModel by viewModels {
-            factory
-        }
-
-        viewModel.getAllStories().observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Loading -> {
-                        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
-                    }
-                    is Result.Error -> {
-                        Toast.makeText(context, result.error, Toast.LENGTH_SHORT).show()
-                    }
-                    is Result.Success -> {
-                        setAdapter(result.data.listStory)
-                    }
-                }
-            }
-        }
+        getStories()
 
         binding.gridStories.rvStories.apply {
             layoutManager = GridLayoutManager(context, 2)
+        }
+
+        binding.gridStories.swipeRefresh.setOnRefreshListener {
+            getStories()
+            Handler().postDelayed(Runnable { binding.gridStories.swipeRefresh.isRefreshing = false }, 2000)
         }
     }
 
@@ -65,6 +57,31 @@ class HomeFragment : Fragment() {
         adapter.submitList(stories)
         binding.gridStories.rvStories.adapter = adapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getStories()
+    }
+
+    private fun getStories() {
+        viewModel.getAllStories().observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+                        CustomAlertDialog.showDialog(requireActivity(), "Loading", null, CustomAlertDialog.Type.LOADING)
+                    }
+                    is Result.Error -> {
+                        Toast.makeText(context, result.error, Toast.LENGTH_SHORT).show()
+                    }
+                    is Result.Success -> {
+                        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
+                        setAdapter(result.data.listStory)
+                    }
+                }
+            }
+        }
     }
 
 //    private fun showEmptyState(isEmpty: Boolean, section: Enum<Section>) {

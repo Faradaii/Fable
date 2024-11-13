@@ -5,6 +5,7 @@ import com.example.fable.data.remote.response.GetDetailResponse
 import com.example.fable.data.remote.response.LoginResponse
 import com.example.fable.data.remote.response.MessageResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -26,8 +27,8 @@ interface ApiService {
     @Multipart
     @POST("stories")
     suspend fun addStory(
-        @Part("photo") photo: MultipartBody.Part,
-        @Part("description") description: String,
+        @Part photo: MultipartBody.Part,
+        @Part("description") description: RequestBody,
         @Part("lat") lat: Double? = null,
         @Part("lon") lon: Double? = null
     ): MessageResponse
