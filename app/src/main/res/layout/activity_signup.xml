@@ -50,7 +50,6 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout
-                android:id="@+id/linear_asking_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -74,7 +73,6 @@
                     android:text="@string/already_have_an_account" />
 
                 <TextView
-                    android:id="@+id/tv_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -134,7 +132,6 @@
                 tools:alpha="100">
 
                 <com.example.fable.customView.CustomEditText
-                    android:id="@+id/ed_register_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
@@ -175,7 +172,6 @@
                 tools:alpha="100">
 
                 <com.example.fable.customView.CustomEditText
-                    android:id="@+id/ed_register_email"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
@@ -215,7 +211,6 @@
                 tools:alpha="100">
 
                 <com.example.fable.customView.CustomEditText
-                    android:id="@+id/ed_register_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"

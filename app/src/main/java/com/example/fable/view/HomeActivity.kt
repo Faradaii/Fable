@@ -54,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navigation_profile -> "Profile"
                 else -> "Fable"
             }
-            this.title = pageTitle
+            binding.topAppBar.title = pageTitle
         }
     }
 }

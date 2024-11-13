@@ -8,7 +8,6 @@
     tools:context=".view.detail.DetailFragment" >
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -20,14 +19,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView5"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:contentDescription="@string/story_icon"
             android:src="@drawable/ic_auto_awesome_24" />
 
         <TextView
-            android:id="@+id/tv_story"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -38,7 +35,6 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/filledTonalButton"
             style="@style/Widget.Material3.Button.TonalButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="38dp"
@@ -56,7 +52,6 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +59,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_detail_photo"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/photo"
@@ -89,7 +83,6 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/tv_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/description"
@@ -128,7 +121,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_detail_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -139,7 +131,6 @@
                     android:transitionName="tv_story_name" />
 
                 <TextView
-                    android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="12dp"
@@ -181,7 +172,6 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <include
-        android:id="@+id/state_loading"
         layout="@layout/state_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -193,7 +183,6 @@
         tools:visibility="visible" />
 
     <include
-        android:id="@+id/state_error"
         layout="@layout/state_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -205,7 +194,6 @@
         tools:visibility="visible" />
 
     <include
-        android:id="@+id/state_empty"
         layout="@layout/state_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
