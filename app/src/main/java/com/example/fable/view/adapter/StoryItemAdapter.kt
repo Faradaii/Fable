@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -50,15 +49,20 @@ class StoryItemAdapter: ListAdapter<Story, StoryItemAdapter.ViewHolder>(DIFF_CAL
                 itemView.setOnClickListener {
                     val intent = Intent(it.context, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_ID, listItem.id)
-                    val optionsCompat: ActivityOptionsCompat =
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            itemView.context as Activity,
-                            Pair(ivItemPhoto, "iv_story_image"),
-                            Pair(ivAvatarRandom, "iv_story_avatar"),
-                            Pair(tvItemName, "tv_story_name"),
-                            Pair(tvStoryDesc, "tv_story_desc"),
-                        )
-                    it.context.startActivity(intent, optionsCompat.toBundle())
+//                    val optionsCompat: ActivityOptionsCompat =
+//                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                            itemView.context as Activity,
+//                            Pair(ivItemPhoto, "iv_story_image"),
+//                            Pair(ivAvatarRandom, "iv_story_avatar"),
+//                            Pair(tvItemName, "tv_story_name"),
+//                            Pair(tvStoryDesc, "tv_story_desc"),
+//                        )
+//                    it.context.startActivity(intent, optionsCompat.toBundle())
+                    itemView.context.startActivity(
+                        intent,
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(itemView.context as Activity)
+                            .toBundle()
+                    )
                 }
             }
 
@@ -70,8 +74,11 @@ class StoryItemAdapter: ListAdapter<Story, StoryItemAdapter.ViewHolder>(DIFF_CAL
             override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
                 return oldItem.id == newItem.id
             }
+
             override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
-                return oldItem == newItem
+                return oldItem.name == newItem.name &&
+                        oldItem.photoUrl == newItem.photoUrl &&
+                        oldItem.description == newItem.description
             }
         }
     }

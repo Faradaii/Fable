@@ -1,27 +1,29 @@
 package com.example.fable.view.create
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
+import com.example.fable.data.Result
 import com.example.fable.databinding.FragmentCreateBinding
+import com.example.fable.util.Util.reduceFileImage
 import com.example.fable.util.Util.uriToFile
+import com.example.fable.view.MySnackBar
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.detail.DetailViewModel
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import com.example.fable.data.Result
-import com.example.fable.util.Util.reduceFileImage
 
 class CreateFragment : Fragment() {
 
@@ -31,7 +33,6 @@ class CreateFragment : Fragment() {
     private val viewModel: CreateViewModel by viewModels {
         ViewModelFactory.getInstance(requireActivity())
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -109,14 +110,17 @@ class CreateFragment : Fragment() {
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        showToast("Uploading...")
+                        showToast("Trying to share your story...")
                     }
                     is Result.Error -> {
                         showToast(result.error)
                     }
                     is Result.Success -> {
-                        showToast("Success")
-                        requireActivity().finish()
+                        MySnackBar.showSnackBar(binding.root, "Your story has been shared!")
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            requireActivity().setResult(Activity.RESULT_OK)
+                            requireActivity().finish()
+                        }, 1000)
                     }
                 }
             }

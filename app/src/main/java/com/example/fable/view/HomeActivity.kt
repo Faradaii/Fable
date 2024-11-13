@@ -1,18 +1,17 @@
 package com.example.fable.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.fable.R
 import com.example.fable.databinding.ActivityHomeBinding
 import com.example.fable.view.create.CreateActivity
-import com.example.fable.view.detail.DetailActivity
+import com.example.fable.view.home.HomeFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
 
@@ -28,20 +27,34 @@ class HomeActivity : AppCompatActivity() {
         navView.background = null
         navView.menu.getItem(1).isEnabled = false
 
-
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
         val navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        binding.floatingActionButton.setOnClickListener{
-            val intent = Intent(this, CreateActivity::class.java)
-            startActivity(intent)
+
+        val createActivityLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                navView.selectedItemId = R.id.navigation_home
+                navHostFragment.childFragmentManager.fragments.firstOrNull {
+                    it is HomeFragment
+                }?.let { fragment -> (fragment as HomeFragment).getStories() }
+            }
         }
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        binding.fabAddStory.setOnClickListener {
+            val intent = Intent(this, CreateActivity::class.java)
+            createActivityLauncher.launch(intent)
+        }
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val pageTitle = when (destination.id) {
+                R.id.navigation_home -> "Home"
+                R.id.navigation_profile -> "Profile"
+                else -> "Fable"
+            }
+            binding.topAppBar.title = pageTitle
+        }
     }
 }

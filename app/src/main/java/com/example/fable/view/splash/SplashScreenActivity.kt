@@ -1,42 +1,53 @@
-package com.example.fable.view.main
+package com.example.fable.view.splash
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fable.databinding.ActivityMainBinding
+import com.example.fable.databinding.ActivitySplashScreenBinding
 import com.example.fable.view.HomeActivity
 import com.example.fable.view.ViewModelFactory
+import com.example.fable.view.profile.ProfileViewModel
 import com.example.fable.view.welcome.WelcomeActivity
 
-class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModels<MainViewModel> {
+@SuppressLint("CustomSplashScreen")
+class SplashScreenActivity : AppCompatActivity() {
+    private val viewModel by viewModels<ProfileViewModel> {
         ViewModelFactory.getInstance(this)
     }
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivitySplashScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.getSession().observe(this) { user ->
+        viewModel.getUser().observe(this) { user ->
             if (!user.isLogin) {
-                startActivity(Intent(this, WelcomeActivity::class.java))
-                finish()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    val intent = Intent(this, WelcomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }, 2000)
             } else {
-                startActivity(Intent(this, HomeActivity::class.java))
+                Handler(Looper.getMainLooper()).postDelayed({
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                }, 2000)
             }
         }
 
         setupView()
-        setupAction()
         playAnimation()
     }
 
@@ -50,28 +61,19 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-        supportActionBar?.hide()
-    }
-
-    private fun setupAction() {
-        binding.logoutButton.setOnClickListener {
-            viewModel.logout()
-        }
     }
 
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
-            duration = 6000
+            duration = 500
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
         }.start()
 
-        val name = ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(100)
-        val message = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(100)
-        val logout = ObjectAnimator.ofFloat(binding.logoutButton, View.ALPHA, 1f).setDuration(100)
+        val logo = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(100)
 
         AnimatorSet().apply {
-            playSequentially(name, message, logout)
+            playSequentially(logo)
             startDelay = 100
         }.start()
     }

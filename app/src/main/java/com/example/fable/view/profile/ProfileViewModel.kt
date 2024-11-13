@@ -1,13 +1,17 @@
 package com.example.fable.view.profile
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import com.example.fable.data.StoryRepository
+import com.example.fable.data.local.pref.UserModel
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel(private val repository: StoryRepository) : ViewModel() {
+    suspend fun logout() =
+        repository.logout()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+
+    fun getUser(): LiveData<UserModel> {
+        return repository.getSession().asLiveData()
     }
-    val text: LiveData<String> = _text
 }

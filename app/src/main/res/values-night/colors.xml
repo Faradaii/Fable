@@ -1,0 +1,9 @@
+<resources>
+    <color name="md_theme_primary">#80D4DA</color>
+    <color name="md_theme_outline">#899393</color>
+    <color name="md_theme_outlineVariant">#3F4949</color>
+    <color name="md_theme_inverseSurface">#DDE4E4</color>
+    <color name="md_theme_inverseOnSurface">#2B3232</color>
+    <color name="md_theme_surfaceContainerHigh">#252B2B</color>
+    <color name="md_theme_surfaceContainerHighest">#303636</color>
+</resources>
