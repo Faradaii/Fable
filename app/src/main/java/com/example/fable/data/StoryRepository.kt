@@ -65,11 +65,15 @@ class StoryRepository private constructor(
         }
     }
 
-    fun getAllStories(): LiveData<Result<GetAllResponse>> = liveData {
+    fun getAllStories(
+        page: Int? = null,
+        size: Int? = null,
+        location: Int? = null,
+    ): LiveData<Result<GetAllResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = withContext(Dispatchers.IO) {
-                apiService.getAllStories()
+                apiService.getAllStories(page, size, location)
             }
             delay(2000)
             emit(Result.Success(response))
