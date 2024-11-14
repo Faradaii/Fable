@@ -88,10 +88,20 @@ class StoryRepository private constructor(
         }
     }
 
-    fun addStory(multipartBody: MultipartBody.Part, requestBody: RequestBody): LiveData<Result<MessageResponse>> = liveData {
+    fun addStory(
+        multipartBody: MultipartBody.Part,
+        descRequestBody: RequestBody,
+        latitudeRequestBody: RequestBody? = null,
+        longitudeRequestBody: RequestBody? = null,
+    ): LiveData<Result<MessageResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.addStory(multipartBody, requestBody)
+            val response = apiService.addStory(
+                multipartBody,
+                descRequestBody,
+                latitudeRequestBody,
+                longitudeRequestBody
+            )
             emit(Result.Success(response))
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()

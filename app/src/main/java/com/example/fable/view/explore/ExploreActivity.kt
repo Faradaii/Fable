@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -136,23 +137,14 @@ class ExploreActivity : AppCompatActivity(), OnMapReadyCallback {
                                     ) {
                                         val bitmapDescriptor =
                                             BitmapDescriptorFactory.fromBitmap(resource)
-                                        mMap.addMarker(
+                                        val marker = mMap.addMarker(
                                             MarkerOptions()
                                                 .position(latLng)
                                                 .title(data.name)
                                                 .snippet(data.description)
                                                 .icon(bitmapDescriptor)
                                         )
-
-                                        mMap.setOnMarkerClickListener {
-                                            val intent = Intent(
-                                                this@ExploreActivity,
-                                                DetailActivity::class.java
-                                            )
-                                            intent.putExtra(DetailActivity.EXTRA_ID, data.id)
-                                            startActivity(intent)
-                                            true
-                                        }
+                                        marker?.tag = data.id
                                     }
 
                                     override fun onLoadCleared(placeholder: Drawable?) {
@@ -160,6 +152,22 @@ class ExploreActivity : AppCompatActivity(), OnMapReadyCallback {
                                 }
                                 )
                             boundsBuilder.include(latLng)
+                        }
+
+                        mMap.setOnMarkerClickListener { marker ->
+                            if (marker.tag != null) {
+                                val intent = Intent(
+                                    this@ExploreActivity,
+                                    DetailActivity::class.java
+                                )
+                                intent.putExtra(DetailActivity.EXTRA_ID, marker.tag.toString())
+                                this.startActivity(
+                                    intent,
+                                    ActivityOptionsCompat.makeSceneTransitionAnimation(this)
+                                        .toBundle()
+                                )
+                            }
+                            true
                         }
 
                         val bounds: LatLngBounds = boundsBuilder.build()

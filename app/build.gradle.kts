@@ -74,4 +74,6 @@ dependencies {
     implementation(libs.material)
     implementation (libs.androidx.fragment.ktx)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 }
