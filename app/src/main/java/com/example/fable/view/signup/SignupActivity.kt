@@ -54,7 +54,7 @@ class SignupActivity : AppCompatActivity() {
             val email = binding.edRegisterEmail.text.toString()
             val password = binding.edRegisterPassword.text.toString()
 
-            if (validateInput(name, email, password)) {
+            if (validateCheckbox()) {
                 viewModel.register(name, email, password).observe(this) { result ->
                     if (result != null) {
                         when (result) {
@@ -95,28 +95,14 @@ class SignupActivity : AppCompatActivity() {
         setupTextWatchers()
     }
 
-    private fun validateInput(name: String, email: String, password: String): Boolean {
-        binding.nameEditTextLayout.error = when {
-            name.isEmpty() -> "Name cannot be empty"
-            else -> null
-        }
-
-        binding.emailEditTextLayout.error = when {
-            email.isEmpty() -> "Email cannot be empty"
-            else -> null
-        }
-
-        binding.passwordEditTextLayout.error = when {
-            password.isEmpty() -> "Password cannot be empty"
-            else -> null
-        }
+    private fun validateCheckbox(): Boolean {
 
         binding.checkboxEditTextLayout.error = when {
             !binding.checkBox.isChecked -> "You must agree to the terms to proceed."
             else -> null
         }
 
-        return binding.nameEditTextLayout.error == null && binding.emailEditTextLayout.error == null && binding.passwordEditTextLayout.error == null && binding.checkboxEditTextLayout.error == null
+        return binding.checkboxEditTextLayout.error == null
     }
 
     private fun setupTextWatchers() {

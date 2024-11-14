@@ -54,32 +54,32 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.edLoginEmail.text.toString()
             val password = binding.edLoginPassword.text.toString()
 
-            if (validateInput(email, password)) {
-                viewModel.login(email, password).observe(this) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is Result.Loading -> {
-                                Toast.makeText(this, "Logging you in...", Toast.LENGTH_SHORT).show()
-                            }
-                            is Result.Error -> {
-                                MySnackBar.showSnackBar(
-                                    binding.root,
-                                    result.error
-                                )
-                            }
-                            is Result.Success -> {
-                                MySnackBar.showSnackBar(
-                                    binding.root,
-                                    "Welcome Back, ${result.data.loginResult!!.name} !"
-                                )
-                                Handler(Looper.getMainLooper()).postDelayed({
-                                    val intent = Intent(this, HomeActivity::class.java)
-                                    intent.flags =
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                    startActivity(intent)
-                                    finish()
-                                }, 1000)
-                            }
+            viewModel.login(email, password).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Result.Loading -> {
+                            Toast.makeText(this, "Logging you in...", Toast.LENGTH_SHORT).show()
+                        }
+
+                        is Result.Error -> {
+                            MySnackBar.showSnackBar(
+                                binding.root,
+                                result.error
+                            )
+                        }
+
+                        is Result.Success -> {
+                            MySnackBar.showSnackBar(
+                                binding.root,
+                                "Welcome Back, ${result.data.loginResult!!.name} !"
+                            )
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(this, HomeActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                                finish()
+                            }, 1000)
                         }
                     }
                 }
@@ -93,19 +93,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         setupTextWatchers()
-    }
-
-    private fun validateInput(email: String, password: String): Boolean {
-        binding.emailEditTextLayout.error = when {
-            email.isEmpty() -> "Email cannot be empty"
-            else -> null
-        }
-
-        binding.passwordEditTextLayout.error = when {
-            password.isEmpty() -> "Password cannot be empty"
-            else -> null
-        }
-        return binding.emailEditTextLayout.error == null && binding.passwordEditTextLayout.error == null
     }
 
     private fun setupTextWatchers() {
