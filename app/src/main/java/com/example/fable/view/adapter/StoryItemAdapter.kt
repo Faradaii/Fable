@@ -1,4 +1,4 @@
-package com.example.fable.view.component.adapter
+package com.example.fable.view.adapter
 
 import android.app.Activity
 import android.content.Intent
@@ -49,6 +49,15 @@ class StoryItemAdapter: ListAdapter<Story, StoryItemAdapter.ViewHolder>(DIFF_CAL
                 itemView.setOnClickListener {
                     val intent = Intent(it.context, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_ID, listItem.id)
+//                    val optionsCompat: ActivityOptionsCompat =
+//                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                            itemView.context as Activity,
+//                            Pair(ivItemPhoto, "iv_story_image"),
+//                            Pair(ivAvatarRandom, "iv_story_avatar"),
+//                            Pair(tvItemName, "tv_story_name"),
+//                            Pair(tvStoryDesc, "tv_story_desc"),
+//                        )
+//                    it.context.startActivity(intent, optionsCompat.toBundle())
                     itemView.context.startActivity(
                         intent,
                         ActivityOptionsCompat.makeSceneTransitionAnimation(itemView.context as Activity)

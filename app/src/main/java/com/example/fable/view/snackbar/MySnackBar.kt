@@ -1,4 +1,4 @@
-package com.example.fable.view.component.snackbar
+package com.example.fable.view.snackbar
 
 import android.view.View
 import androidx.core.content.ContextCompat

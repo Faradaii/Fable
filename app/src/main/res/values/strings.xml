@@ -42,12 +42,4 @@
     <string name="add_photo">Add Photo</string>
     <string name="upload_story">Upload Story</string>
     <string name="fab_add_story">FAB Add Story</string>
-    <string name="title_activity_explore">ExploreActivity</string>
-    <string name="add_location">Add Location</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="asking_permission">Asking permission</string>
-    <string name="permission_needed">Permission Needed</string>
-    <string name="permission_needed_body">To use this feature, you need to accept the following permissions</string>
-    <string name="accept_permission">Accept Permission</string>
 </resources>

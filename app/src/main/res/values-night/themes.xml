@@ -5,8 +5,8 @@
     <style name="AppTheme.NoActionBar" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:statusBarColor">@null</item>
-        <item name="android:windowEnterTransition">@android:transition/fade</item>
-        <item name="android:windowExitTransition">@android:transition/fade</item>
+        <item name="android:windowEnterTransition">@android:transition/slide_bottom</item>
+        <item name="android:windowExitTransition">@android:transition/slide_bottom</item>
         <item name="android:windowBackground">@color/md_theme_onPrimary</item>
         <item name="android:windowActionBarOverlay">@color/md_theme_surface</item>
         <item name="colorPrimary">@color/md_theme_primary</item>
