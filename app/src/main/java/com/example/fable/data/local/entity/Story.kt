@@ -1,8 +1,15 @@
 package com.example.fable.data.local.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "story")
 data class Story(
+
+    @PrimaryKey(autoGenerate = false)
+    @field:SerializedName("id")
+    val id: String,
 
     @field:SerializedName("photoUrl")
     val photoUrl: String? = null,
@@ -18,9 +25,6 @@ data class Story(
 
     @field:SerializedName("lon")
     val lon: Double? = null,
-
-    @field:SerializedName("id")
-    val id: String? = null,
 
     @field:SerializedName("lat")
     val lat: Double? = null,

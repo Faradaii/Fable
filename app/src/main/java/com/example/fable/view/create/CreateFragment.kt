@@ -30,9 +30,9 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.material.snackbar.Snackbar
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
@@ -80,8 +80,7 @@ class CreateFragment : Fragment() {
             viewModel.currentImageUri = croppedImageUri
             showImage(croppedImageUri!!)
         } else {
-            val exception = result.error
-            showToast(exception.toString())
+            showToast("Adding image canceled")
         }
     }
 
@@ -116,10 +115,16 @@ class CreateFragment : Fragment() {
 
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
         val descRequestBody = desc.toRequestBody("text/plain".toMediaType())
-        val latitudeRequestBody =
-            location.latitude.toString().toRequestBody("text/plain".toMediaType())
-        val longitudeRequestBody =
-            location.longitude.toString().toRequestBody("text/plain".toMediaType())
+        var latitudeRequestBody: RequestBody? = null
+        var longitudeRequestBody: RequestBody? = null
+
+        if (binding.swLocation.isChecked) {
+            latitudeRequestBody =
+                location.latitude.toString().toRequestBody("text/plain".toMediaType())
+            longitudeRequestBody =
+                location.longitude.toString().toRequestBody("text/plain".toMediaType())
+        }
+
         val multipartBody = MultipartBody.Part.createFormData(
             "photo",
             imageFile.name,
@@ -172,22 +177,19 @@ class CreateFragment : Fragment() {
                 .addOnSuccessListener { location: Location? ->
                     if (location != null) {
                         this.location = location
-                        Snackbar.make(binding.root, "Location is found", Snackbar.LENGTH_SHORT)
-                            .show()
+                        MySnackBar.showSnackBar(
+                            binding.root,
+                            "Your story can viewed in Explore page"
+                        )
                         binding.swLocation.isChecked = true
                     } else {
-                        Snackbar.make(
-                            binding.root,
-                            "Location is not found, Please enable location!",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                        MySnackBar.showSnackBar(binding.root, "Please enable GPS!")
                         binding.swLocation.isChecked = false
                         requestSingleLocationUpdate()
                     }
                 }
                 .addOnFailureListener {
-                    Snackbar.make(binding.root, "Failed to get location", Snackbar.LENGTH_SHORT)
-                        .show()
+                    MySnackBar.showSnackBar(binding.root, "Failed to get location")
                     binding.swLocation.isChecked = false
                 }
         } else {

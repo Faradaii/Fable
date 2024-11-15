@@ -50,4 +50,5 @@
     <string name="permission_needed">Permission Needed</string>
     <string name="permission_needed_body">To use this feature, you need to accept the following permissions</string>
     <string name="accept_permission">Accept Permission</string>
+    <string name="try_again">Try Again</string>
 </resources>
