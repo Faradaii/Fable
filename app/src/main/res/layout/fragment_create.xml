@@ -59,7 +59,6 @@
                 app:srcCompat="@drawable/ic_image_24" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/linear_asking_login"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -67,16 +66,16 @@
                 <Button
                     android:id="@+id/addPhotoButton"
                     style="@style/Widget.Material3.Button.TonalButton"
-                    android:textSize="12sp"
-                    android:backgroundTint="@color/dark"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
+                    android:backgroundTint="@color/dark"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:text="@string/add_photo"
                     android:textColor="@color/md_theme_onPrimary"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -86,17 +85,17 @@
                     android:id="@+id/descriptionInputLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:hint="@string/description"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/description"
                     app:boxCornerRadiusBottomEnd="5dp"
                     app:boxCornerRadiusBottomStart="5dp"
                     app:boxCornerRadiusTopEnd="5dp"
                     app:boxCornerRadiusTopStart="5dp"
-                    app:boxStrokeWidth="2dp"
                     app:boxStrokeColor="@color/md_theme_primary"
+                    app:boxStrokeWidth="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/addPhotoButton">
@@ -107,16 +106,26 @@
                         android:layout_height="150dp"
                         android:gravity="top|start"
                         android:inputType="textMultiLine"
+                        android:maxLines="5"
+                        android:minLines="2"
+                        android:overScrollMode="always"
                         android:padding="10dp"
                         android:scrollbars="vertical"
                         android:textCursorDrawable="@null"
                         android:textSize="14sp"
-                        android:textStyle="normal"
-                        android:overScrollMode="always"
-                        android:minLines="2"
-                        android:maxLines="5" />
+                        android:textStyle="normal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/materialDivider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="32dp"
+                    app:dividerColor="@color/md_theme_onPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/descriptionInputLayout" />
 
                 <Button
                     android:id="@+id/button_add"
@@ -133,7 +142,21 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/descriptionInputLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/sw_location" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/sw_location"
+                    style="@style/Widget.App.Switch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/add_location"
+                    android:textColorLink="@color/md_theme_primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -15,7 +15,7 @@ import com.example.fable.BuildConfig
 import com.example.fable.R
 import com.example.fable.databinding.FragmentProfileBinding
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.snackbar.MySnackBar
+import com.example.fable.view.component.snackbar.MySnackBar
 import com.example.fable.view.welcome.WelcomeActivity
 import kotlinx.coroutines.launch
 
