@@ -6,54 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.detail.DetailFragment" >
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:contentDescription="@string/story_icon"
-            android:src="@drawable/ic_auto_awesome_24" />
-
-        <TextView
-            android:id="@+id/tv_story"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/story"
-            android:textColor="@color/md_theme_onPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/filledTonalButton"
-            style="@style/Widget.Material3.Button.TonalButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="38dp"
-            android:backgroundTint="@color/dark"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:text="@string/photo"
-            android:textColor="@color/md_theme_onPrimary"
-            android:textSize="@dimen/_10sp"
-            app:icon="@drawable/ic_image_24"
-            app:iconSize="12dp"
-            app:iconTint="@color/md_theme_onPrimary"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
-
-    </LinearLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_detail"
         android:layout_width="match_parent"
@@ -62,6 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <ImageView
             android:id="@+id/iv_detail_photo"
             android:layout_width="0dp"
@@ -69,11 +22,44 @@
             android:contentDescription="@string/photo"
             android:scaleType="fitCenter"
             android:transitionName="iv_story_image"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.14" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.8" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient_top_bottom"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient_bottom_top"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -152,13 +138,6 @@
 
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="63dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -178,6 +157,54 @@
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="@color/black"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/story_icon"
+            android:src="@drawable/ic_auto_awesome_24" />
+
+        <TextView
+            android:id="@+id/tv_story"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/story"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/filledTonalButton"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:backgroundTint="@color/dark"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/photo"
+            android:textColor="@color/md_theme_onPrimary"
+            android:textSize="@dimen/_10sp"
+            app:icon="@drawable/ic_image_24"
+            app:iconSize="12dp"
+            app:iconTint="@color/md_theme_onPrimary"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/state_loading"
