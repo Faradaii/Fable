@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.canhub.cropper.CropImageContract
@@ -23,7 +22,8 @@ import com.example.fable.databinding.FragmentCreateBinding
 import com.example.fable.util.Util.reduceFileImage
 import com.example.fable.util.Util.uriToFile
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.snackbar.MySnackBar
+import com.example.fable.view.component.bottomsheet.PermissionBottomSheet
+import com.example.fable.view.component.snackbar.MySnackBar
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -157,25 +157,6 @@ class CreateFragment : Fragment() {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    getMyLocation()
-                }
-
-                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                    getMyLocation()
-                }
-
-                else -> {
-                    //TODO: Show an explanation to the user
-                }
-            }
-        }
-
     private fun checkPermission(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(
             requireActivity().applicationContext,
@@ -193,6 +174,7 @@ class CreateFragment : Fragment() {
                         this.location = location
                         Snackbar.make(binding.root, "Location is found", Snackbar.LENGTH_SHORT)
                             .show()
+                        binding.swLocation.isChecked = true
                     } else {
                         Snackbar.make(
                             binding.root,
@@ -209,12 +191,8 @@ class CreateFragment : Fragment() {
                     binding.swLocation.isChecked = false
                 }
         } else {
-            requestPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
+            showPermissionRequest()
+            binding.swLocation.isChecked = false
         }
     }
 
@@ -238,13 +216,13 @@ class CreateFragment : Fragment() {
                 Looper.getMainLooper()
             )
         } catch (e: SecurityException) {
-            requestPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
+            showPermissionRequest()
         }
+    }
+
+    private fun showPermissionRequest() {
+        val permissionFragment = PermissionBottomSheet()
+        permissionFragment.show(childFragmentManager, "PermissionBottomSheet")
     }
 
     override fun onDestroyView() {

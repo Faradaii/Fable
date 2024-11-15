@@ -1,4 +1,4 @@
-package com.example.fable.view.adapter
+package com.example.fable.view.component.adapter
 
 import android.app.Activity
 import android.content.Intent

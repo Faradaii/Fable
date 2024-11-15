@@ -27,7 +27,8 @@
         <activity
             android:name=".view.explore.ExploreActivity"
             android:exported="false"
-            android:label="@string/title_activity_explore" />
+            android:label="@string/title_activity_explore"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.detail.DetailActivity"
             android:exported="false"
