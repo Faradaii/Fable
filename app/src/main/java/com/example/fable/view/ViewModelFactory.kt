@@ -7,7 +7,6 @@ import com.example.fable.data.StoryRepository
 import com.example.fable.di.Injection
 import com.example.fable.view.create.CreateViewModel
 import com.example.fable.view.detail.DetailViewModel
-import com.example.fable.view.explore.ExploreViewModel
 import com.example.fable.view.home.HomeViewModel
 import com.example.fable.view.login.LoginViewModel
 import com.example.fable.view.profile.ProfileViewModel
@@ -39,9 +38,6 @@ class ViewModelFactory(private val repository: StoryRepository) : ViewModelProvi
             }
             modelClass.isAssignableFrom(SplashScreenViewModel::class.java) -> {
                 SplashScreenViewModel(repository) as T
-            }
-            modelClass.isAssignableFrom(ExploreViewModel::class.java) -> {
-                ExploreViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -65,15 +65,11 @@ class StoryRepository private constructor(
         }
     }
 
-    fun getAllStories(
-        page: Int? = null,
-        size: Int? = null,
-        location: Int? = null,
-    ): LiveData<Result<GetAllResponse>> = liveData {
+    fun getAllStories(): LiveData<Result<GetAllResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = withContext(Dispatchers.IO) {
-                apiService.getAllStories(page, size, location)
+                apiService.getAllStories()
             }
             delay(2000)
             emit(Result.Success(response))
@@ -88,20 +84,10 @@ class StoryRepository private constructor(
         }
     }
 
-    fun addStory(
-        multipartBody: MultipartBody.Part,
-        descRequestBody: RequestBody,
-        latitudeRequestBody: RequestBody? = null,
-        longitudeRequestBody: RequestBody? = null,
-    ): LiveData<Result<MessageResponse>> = liveData {
+    fun addStory(multipartBody: MultipartBody.Part, requestBody: RequestBody): LiveData<Result<MessageResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.addStory(
-                multipartBody,
-                descRequestBody,
-                latitudeRequestBody,
-                longitudeRequestBody
-            )
+            val response = apiService.addStory(multipartBody, requestBody)
             emit(Result.Success(response))
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()

@@ -1,9 +1,6 @@
 package com.example.fable.view.create
 
-import android.Manifest
 import android.app.Activity
-import android.content.pm.PackageManager
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -12,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
@@ -22,15 +18,7 @@ import com.example.fable.databinding.FragmentCreateBinding
 import com.example.fable.util.Util.reduceFileImage
 import com.example.fable.util.Util.uriToFile
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.component.bottomsheet.PermissionBottomSheet
-import com.example.fable.view.component.snackbar.MySnackBar
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.material.snackbar.Snackbar
+import com.example.fable.view.snackbar.MySnackBar
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -41,9 +29,6 @@ class CreateFragment : Fragment() {
     private var _binding: FragmentCreateBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: CreateViewModel
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var location: Location
 
 
     override fun onCreateView(
@@ -59,8 +44,6 @@ class CreateFragment : Fragment() {
             ViewModelFactory.getInstance(requireActivity()).create(CreateViewModel::class.java)
         viewModel.currentImageUri?.let { showImage(it) }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
         return root
     }
 
@@ -70,7 +53,6 @@ class CreateFragment : Fragment() {
         binding.apply {
             addPhotoButton.setOnClickListener{ startAddPhoto() }
             buttonAdd.setOnClickListener{ uploadStory() }
-            swLocation.setOnCheckedChangeListener { _, isChecked -> if (isChecked) getMyLocation() }
         }
     }
 
@@ -115,11 +97,7 @@ class CreateFragment : Fragment() {
         val desc = binding.edAddDescription.text.toString()
 
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-        val descRequestBody = desc.toRequestBody("text/plain".toMediaType())
-        val latitudeRequestBody =
-            location.latitude.toString().toRequestBody("text/plain".toMediaType())
-        val longitudeRequestBody =
-            location.longitude.toString().toRequestBody("text/plain".toMediaType())
+        val requestBody = desc.toRequestBody("text/plain".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
             "photo",
             imageFile.name,
@@ -127,12 +105,7 @@ class CreateFragment : Fragment() {
         )
 
 
-        viewModel.addStory(
-            multipartBody,
-            descRequestBody,
-            latitudeRequestBody,
-            longitudeRequestBody
-        ).observe(viewLifecycleOwner) { result ->
+        viewModel.addStory(multipartBody, requestBody).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
@@ -155,74 +128,6 @@ class CreateFragment : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireActivity().applicationContext,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun getMyLocation() {
-        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-        ) {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    if (location != null) {
-                        this.location = location
-                        Snackbar.make(binding.root, "Location is found", Snackbar.LENGTH_SHORT)
-                            .show()
-                        binding.swLocation.isChecked = true
-                    } else {
-                        Snackbar.make(
-                            binding.root,
-                            "Location is not found, Please enable location!",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        binding.swLocation.isChecked = false
-                        requestSingleLocationUpdate()
-                    }
-                }
-                .addOnFailureListener {
-                    Snackbar.make(binding.root, "Failed to get location", Snackbar.LENGTH_SHORT)
-                        .show()
-                    binding.swLocation.isChecked = false
-                }
-        } else {
-            showPermissionRequest()
-            binding.swLocation.isChecked = false
-        }
-    }
-
-    private fun requestSingleLocationUpdate() {
-        val locationRequest = LocationRequest.Builder(
-            Priority.PRIORITY_HIGH_ACCURACY, 1000
-        ).setMaxUpdates(1).build()
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                if (locationResult.lastLocation != null) {
-                    location = locationResult.lastLocation!!
-                }
-                fusedLocationClient.removeLocationUpdates(this)
-            }
-        }
-        try {
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-            )
-        } catch (e: SecurityException) {
-            showPermissionRequest()
-        }
-    }
-
-    private fun showPermissionRequest() {
-        val permissionFragment = PermissionBottomSheet()
-        permissionFragment.show(childFragmentManager, "PermissionBottomSheet")
     }
 
     override fun onDestroyView() {

@@ -9,16 +9,6 @@ import okhttp3.RequestBody
 class CreateViewModel(private val repository: StoryRepository) : ViewModel() {
     var currentImageUri: Uri? = null
 
-    fun addStory(
-        multipartBody: MultipartBody.Part,
-        descRequestBody: RequestBody,
-        latitudeRequestBody: RequestBody?,
-        longitudeRequestBody: RequestBody?,
-    ) =
-        repository.addStory(
-            multipartBody,
-            descRequestBody,
-            latitudeRequestBody,
-            longitudeRequestBody
-        )
+    fun addStory(multipartBody: MultipartBody.Part, requestBody: RequestBody) =
+        repository.addStory(multipartBody, requestBody)
 }
