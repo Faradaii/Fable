@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.fable.data.Result
-import com.example.fable.data.local.entity.Story
 import com.example.fable.databinding.FragmentHomeBinding
 import com.example.fable.view.ViewModelFactory
+import com.example.fable.view.component.adapter.LoadingAdapter
 import com.example.fable.view.component.adapter.StoryItemAdapter
 
 class HomeFragment : Fragment() {
@@ -20,6 +20,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: HomeViewModel
+
+    private val storyAdapter by lazy { StoryItemAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,47 +40,39 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerView()
         getStories()
 
-        binding.gridStories.rvStories.apply {
-            layoutManager = GridLayoutManager(context, 2)
-        }
-
         binding.gridStories.swipeRefresh.setOnRefreshListener {
-            getStories()
+            storyAdapter.refresh()
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.gridStories.swipeRefresh.isRefreshing = false
             }, 2000)
         }
     }
 
-    private fun setAdapter(stories: List<Story>){
-        val adapter = StoryItemAdapter()
-        adapter.submitList(stories)
-        binding.gridStories.rvStories.adapter = adapter
+    private fun setupRecyclerView() {
+        binding.gridStories.rvStories.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = storyAdapter.withLoadStateFooter(
+                footer = LoadingAdapter {
+                    storyAdapter.retry()
+                }
+            )
+        }
 
+        storyAdapter.addLoadStateListener { loadState ->
+            when (loadState.refresh) {
+                is LoadState.Loading -> showState(isLoading = true)
+                is LoadState.NotLoading -> showState(isShowStories = true)
+                is LoadState.Error -> showState(isError = true)
+            }
+        }
     }
 
     fun getStories() {
-        viewModel.getAllStories().observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Loading -> {
-                        showState(isLoading = true)
-                    }
-                    is Result.Error -> {
-                        showState(isError = true, errorMessage = result.error)
-                    }
-                    is Result.Success -> {
-                        if (result.data.listStory.isEmpty()) {
-                            showState(isEmpty = true)
-                        } else {
-                            showState(isShowStories = true)
-                        }
-                        setAdapter(result.data.listStory)
-                    }
-                }
-            }
+        viewModel.getAllStories().observe(viewLifecycleOwner) { pagingData ->
+            storyAdapter.submitData(lifecycle, pagingData)
         }
     }
 
@@ -98,7 +92,6 @@ class HomeFragment : Fragment() {
                 if (isLoading) View.VISIBLE else View.GONE
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

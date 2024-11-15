@@ -6,6 +6,8 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -116,7 +118,7 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
                                 .asBitmap()
                                 .load(data.photoUrl)
                                 .apply(RequestOptions().override(200, 200))
-                                .signature(ObjectKey(data.id!!))
+                                .signature(ObjectKey(data.id))
                                 .circleCrop()
                                 .transform(
                                     CenterCrop(),
@@ -154,15 +156,26 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
 
                         mMap.setOnMarkerClickListener { marker ->
                             if (marker.tag != null) {
+                                marker.showInfoWindow()
+                                Toast.makeText(
+                                    context,
+                                    "Viewing ${marker.title}'s story...",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+
                                 val intent = Intent(requireContext(), DetailActivity::class.java)
                                 intent.putExtra(DetailActivity.EXTRA_ID, marker.tag.toString())
-                                startActivity(
-                                    intent,
-                                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        requireActivity()
+
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    startActivity(
+                                        intent,
+                                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                            requireActivity()
+                                        )
+                                            .toBundle()
                                     )
-                                        .toBundle()
-                                )
+                                }, 2000)
                             }
                             true
                         }

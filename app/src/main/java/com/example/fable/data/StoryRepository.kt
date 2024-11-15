@@ -2,8 +2,15 @@ package com.example.fable.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.example.fable.data.local.entity.Story
 import com.example.fable.data.local.pref.UserModel
 import com.example.fable.data.local.pref.UserPreference
+import com.example.fable.data.local.room.StoryDatabase
 import com.example.fable.data.remote.response.GetAllResponse
 import com.example.fable.data.remote.response.GetDetailResponse
 import com.example.fable.data.remote.response.LoginResponse
@@ -21,7 +28,8 @@ import java.net.SocketTimeoutException
 
 class StoryRepository private constructor(
     private val apiService: ApiService,
-    private val userPreference: UserPreference
+    private val userPreference: UserPreference,
+    private val storyDatabase: StoryDatabase,
 ) {
 
     fun register(name: String, email: String, password: String): LiveData<Result<MessageResponse>> = liveData {
@@ -88,6 +96,20 @@ class StoryRepository private constructor(
         }
     }
 
+    fun getAllStoriesWithPager(): LiveData<PagingData<Story>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = true
+            ),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+            pagingSourceFactory = {
+                storyDatabase.storyDao().getAllStory()
+            }
+        ).liveData
+    }
+
     fun addStory(
         multipartBody: MultipartBody.Part,
         descRequestBody: RequestBody,
@@ -148,10 +170,15 @@ class StoryRepository private constructor(
         private var instance: StoryRepository? = null
         fun getInstance(
             apiService: ApiService,
-            userPreference: UserPreference
+            userPreference: UserPreference,
+            storyDatabase: StoryDatabase,
         ): StoryRepository =
             instance ?: synchronized(this) {
-                instance ?: StoryRepository(apiService , userPreference)
+                instance ?: StoryRepository(
+                    apiService = apiService,
+                    userPreference = userPreference,
+                    storyDatabase = storyDatabase
+                )
             }.also { instance = it }
     }
 }
