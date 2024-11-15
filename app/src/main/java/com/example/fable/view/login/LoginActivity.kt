@@ -17,8 +17,8 @@ import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
 import com.example.fable.view.HomeActivity
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.component.snackbar.MySnackBar
 import com.example.fable.view.signup.SignupActivity
+import com.example.fable.view.snackbar.MySnackBar
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel: LoginViewModel
