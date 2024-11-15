@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.fable.R
 import com.example.fable.databinding.ActivityHomeBinding
 import com.example.fable.view.create.CreateActivity
+import com.example.fable.view.explore.ExploreActivity
 import com.example.fable.view.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -30,6 +31,21 @@ class HomeActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
         val navController = navHostFragment.navController
+        navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val pageTitle = when (destination.id) {
+                R.id.navigation_home -> "Home"
+                R.id.navigation_profile -> "Profile"
+                else -> "Fable"
+            }
+            binding.topAppBar.title = pageTitle
+        }
+
+        binding.topAppBar.setNavigationIcon(R.drawable.ic_travel_explore_24)
+        binding.topAppBar.setNavigationOnClickListener {
+            val intent = Intent(this, ExploreActivity::class.java)
+            startActivity(intent)
+        }
 
         val createActivityLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -46,15 +62,6 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, CreateActivity::class.java)
             createActivityLauncher.launch(intent)
         }
-        navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            val pageTitle = when (destination.id) {
-                R.id.navigation_home -> "Home"
-                R.id.navigation_profile -> "Profile"
-                else -> "Fable"
-            }
-            binding.topAppBar.title = pageTitle
-        }
     }
 }

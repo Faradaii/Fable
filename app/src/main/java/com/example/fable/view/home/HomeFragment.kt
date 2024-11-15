@@ -12,7 +12,7 @@ import com.example.fable.data.Result
 import com.example.fable.data.local.entity.Story
 import com.example.fable.databinding.FragmentHomeBinding
 import com.example.fable.view.ViewModelFactory
-import com.example.fable.view.adapter.StoryItemAdapter
+import com.example.fable.view.component.adapter.StoryItemAdapter
 
 class HomeFragment : Fragment() {
 
