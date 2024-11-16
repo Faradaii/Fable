@@ -20,7 +20,6 @@ android {
         buildConfigField("String", "BASE_URL_STORY", "\"https://story-api.dicoding.dev/v1/\"")
         buildConfigField("String", "BASE_URL_RANDOM_AVATAR", "\"https://avatar.iran.liara.run/public\"")
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -42,6 +41,12 @@ android {
         buildConfig = true
         viewBinding = true
     }
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -56,10 +61,6 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.recyclerview)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
@@ -82,5 +83,21 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.espresso.idling.resource)
+    implementation(libs.core.ktx)
+
     ksp(libs.room.compiler)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.espresso.intents)
+    androidTestImplementation(libs.androidx.navigation.testing)
 }

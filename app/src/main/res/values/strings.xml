@@ -51,4 +51,11 @@
     <string name="permission_needed_body">To use this feature, you need to accept the following permissions</string>
     <string name="accept_permission">Accept Permission</string>
     <string name="try_again">Try Again</string>
+    <string name="email_cannot_be_empty">Email cannot be empty</string>
+    <string name="email_is_not_valid">Email is not valid</string>
+    <string name="password_cannot_be_empty">Password cannot be empty</string>
+    <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
+    <string name="name_cannot_be_empty">Name cannot be empty</string>
+    <string name="logging_you_in">Logging you in...</string>
+    <string name="welcome_back">Welcome Back, %1$s !</string>
 </resources>

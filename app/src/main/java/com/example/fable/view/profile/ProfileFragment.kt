@@ -43,7 +43,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.actionLogout.setOnClickListener {
+        binding.buttonLogout.setOnClickListener {
             viewModel.viewModelScope.launch {
                 viewModel.logout()
             }

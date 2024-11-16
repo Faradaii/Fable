@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 class ApiConfig {
     companion object{
-        private const val BASE_URL_STORY = BuildConfig.BASE_URL_STORY
+        var BASE_URL_STORY = BuildConfig.BASE_URL_STORY
         fun getApiService(userPreference: UserPreference): ApiService {
             val loggingInterceptor =
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

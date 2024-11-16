@@ -12,6 +12,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fable.R
 import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
@@ -58,7 +59,10 @@ class LoginActivity : AppCompatActivity() {
                 if (result != null) {
                     when (result) {
                         is Result.Loading -> {
-                            Toast.makeText(this, "Logging you in...", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                getString(R.string.logging_you_in), Toast.LENGTH_SHORT
+                            ).show()
                         }
 
                         is Result.Error -> {
@@ -71,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                         is Result.Success -> {
                             MySnackBar.showSnackBar(
                                 binding.root,
-                                "Welcome Back, ${result.data.loginResult!!.name} !"
+                                getString(R.string.welcome_back, result.data.loginResult!!.name)
                             )
                             Handler(Looper.getMainLooper()).postDelayed({
                                 val intent = Intent(this, HomeActivity::class.java)
@@ -145,5 +149,4 @@ class LoginActivity : AppCompatActivity() {
             startDelay = 100
         }.start()
     }
-
 }

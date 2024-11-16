@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import com.example.fable.R
 import com.google.android.material.textfield.TextInputLayout
 
 class CustomEditText @JvmOverloads constructor(
@@ -54,23 +55,23 @@ class CustomEditText @JvmOverloads constructor(
     private fun validateEmail(s: CharSequence?): String? {
         val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$"
         return when {
-            s.isNullOrEmpty() -> "Email cannot be empty"
-            !s.matches(Regex(emailPattern)) -> "Email is not valid"
+            s.isNullOrEmpty() -> context.getString(R.string.email_cannot_be_empty)
+            !s.matches(Regex(emailPattern)) -> context.getString(R.string.email_is_not_valid)
             else -> null
         }
     }
 
     private fun validatePassword(s: CharSequence?): String? {
         return when {
-            s.isNullOrEmpty() -> "Password cannot be empty"
-            s.length < 8 -> "Password must be at least 8 characters"
+            s.isNullOrEmpty() -> context.getString(R.string.password_cannot_be_empty)
+            s.length < 8 -> context.getString(R.string.password_must_be_at_least_8_characters)
             else -> null
         }
     }
 
     private fun validateName(s: CharSequence?): String? {
         return when {
-            s.isNullOrEmpty() -> "Name cannot be empty"
+            s.isNullOrEmpty() -> context.getString(R.string.name_cannot_be_empty)
             else -> null
         }
     }
