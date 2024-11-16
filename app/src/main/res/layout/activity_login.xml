@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.login.LoginActivity">
+    tools:context=".view.login.LoginActivity"
+    tools:ignore="UnusedResources">
 
 
     <LinearLayout
@@ -151,7 +152,7 @@
                 android:layout_width="0dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
                 android:alpha="0"
                 android:backgroundTint="@color/md_theme_primary"

@@ -6,7 +6,6 @@ import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
 import kotlin.concurrent.Volatile
 
-
 class WaitActivityIsResumedIdlingResource(private val activityToWaitClassName: String) :
     IdlingResource {
     private val instance: ActivityLifecycleMonitor = ActivityLifecycleMonitorRegistry.getInstance()

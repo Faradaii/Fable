@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.fable.R
 import com.example.fable.databinding.FragmentPermissionBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -46,15 +47,15 @@ class PermissionBottomSheet : BottomSheetDialogFragment() {
         ) { permissions ->
             when {
                 permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
-                    showToast("Now you're able to use this feature")
+                    showToast(getString(R.string.now_you_re_able_to_use_this_feature))
                 }
 
                 permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
-                    showToast("Now you're able to use this feature")
+                    getString(R.string.now_you_re_able_to_use_this_feature)
                 }
 
                 else -> {
-                    showToast("Oops, you're not fully able to use this feature")
+                    showToast(getString(R.string.oops_you_re_not_fully_able_to_use_this_feature))
                 }
             }
         }

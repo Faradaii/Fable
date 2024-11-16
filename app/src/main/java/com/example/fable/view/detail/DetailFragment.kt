@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.example.fable.BuildConfig
 import com.example.fable.R
@@ -15,6 +14,7 @@ import com.example.fable.data.Result
 import com.example.fable.databinding.FragmentDetailBinding
 import com.example.fable.util.Util
 import com.example.fable.view.ViewModelFactory
+import com.example.fable.view.component.myImageView.ImageView.loadImage
 
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
@@ -58,22 +58,17 @@ class DetailFragment : Fragment() {
                             binding.apply {
                                 tvDetailName.text = result.data.story.name
                                 tvDetailDescription.text = result.data.story.description
-                                tvDate.text =
-                                    Util.formatDate(result.data.story.createdAt.toString())
+                                tvDate.text = Util.formatDate(result.data.story.createdAt)
+                                ivDetailPhoto.loadImage(
+                                    root.context,
+                                    result.data.story.photoUrl
+                                )
+                                ivAvatar.loadImage(
+                                    root.context,
+                                    BuildConfig.BASE_URL_RANDOM_AVATAR,
+                                    signature = ObjectKey(result.data.story.name)
 
-                                Glide.with(root.context)
-                                    .load(result.data.story.photoUrl)
-                                    .placeholder(R.drawable.ic_image_24).fitCenter()
-                                    .error(R.drawable.ic_image_24).fitCenter()
-                                    .into(ivDetailPhoto)
-
-                                Glide.with(root.context)
-                                    .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
-                                    .signature(ObjectKey(result.data.story.name.toString()))
-                                    .placeholder(R.drawable.resource_public)
-                                    .error(R.drawable.resource_public)
-                                    .into(ivAvatar)
-
+                                )
                             }
                         }
                         binding.close.setOnClickListener {

@@ -16,6 +16,7 @@ import com.example.fable.R
 import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivityLoginBinding
+import com.example.fable.util.Util
 import com.example.fable.view.HomeActivity
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.component.snackbar.MySnackBar
@@ -54,53 +55,17 @@ class LoginActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             val email = binding.edLoginEmail.text.toString()
             val password = binding.edLoginPassword.text.toString()
-
-            viewModel.login(email, password).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-                            Toast.makeText(
-                                this,
-                                getString(R.string.logging_you_in), Toast.LENGTH_SHORT
-                            ).show()
-                        }
-
-                        is Result.Error -> {
-                            MySnackBar.showSnackBar(
-                                binding.root,
-                                result.error
-                            )
-                        }
-
-                        is Result.Success -> {
-                            MySnackBar.showSnackBar(
-                                binding.root,
-                                getString(R.string.welcome_back, result.data.loginResult!!.name)
-                            )
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                val intent = Intent(this, HomeActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivity(intent)
-                                finish()
-                            }, 1000)
-                        }
-                    }
-                }
-            }
+            observeLogin(email, password)
         }
-
         binding.tvSignup.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
             finish()
         }
-
         setupTextWatchers()
     }
 
     private fun setupTextWatchers() {
-
         binding.edLoginEmail.apply {
             setInputLayout(binding.emailEditTextLayout)
             setValidationType(CustomEditText.ValidationType.EMAIL)
@@ -110,7 +75,42 @@ class LoginActivity : AppCompatActivity() {
             setInputLayout(binding.passwordEditTextLayout)
             setValidationType(CustomEditText.ValidationType.PASSWORD)
         }
+    }
 
+    private fun observeLogin(email: String, password: String) {
+        viewModel.login(email, password).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        Toast.makeText(
+                            this,
+                            getString(R.string.logging_you_in), Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    is Result.Error -> {
+                        MySnackBar.showSnackBar(
+                            binding.root,
+                            result.error
+                        )
+                    }
+
+                    is Result.Success -> {
+                        MySnackBar.showSnackBar(
+                            binding.root,
+                            getString(R.string.welcome_back, result.data.loginResult!!.name)
+                        )
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this, HomeActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                            finish()
+                        }, Util.ONE_SECOND)
+                    }
+                }
+            }
+        }
     }
 
     private fun playAnimation() {

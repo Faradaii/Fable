@@ -9,18 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.example.fable.BuildConfig
 import com.example.fable.R
 import com.example.fable.databinding.FragmentProfileBinding
+import com.example.fable.util.Util
 import com.example.fable.view.ViewModelFactory
+import com.example.fable.view.component.myImageView.ImageView.loadImage
 import com.example.fable.view.component.snackbar.MySnackBar
 import com.example.fable.view.welcome.WelcomeActivity
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
-
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -47,12 +47,12 @@ class ProfileFragment : Fragment() {
             viewModel.viewModelScope.launch {
                 viewModel.logout()
             }
-            MySnackBar.showSnackBar(view, "Logout Successfully")
+            MySnackBar.showSnackBar(view, getString(R.string.logout_successfully))
             Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(requireActivity(), WelcomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-            }, 1000)
+            }, Util.ONE_SECOND)
         }
 
         viewModel.getUser().observe(viewLifecycleOwner) { user ->
@@ -60,23 +60,20 @@ class ProfileFragment : Fragment() {
                 binding.apply {
                     tvUserName.text = user.name
                     tvEmail.text = user.email
-                    Glide.with(root.context)
-                        .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
-                        .signature(ObjectKey(user.name))
-                        .placeholder(R.drawable.resource_public)
-                        .error(R.drawable.resource_public)
-                        .into(ivAvatar)
+                    ivAvatar.loadImage(
+                        root.context,
+                        BuildConfig.BASE_URL_RANDOM_AVATAR,
+                        signature = ObjectKey(user.name),
+                    )
                 }
             } else {
                 binding.apply {
                     tvUserName.text = getString(R.string.guest)
                     tvEmail.text = getString(R.string.no_email)
-                    Glide.with(root.context)
-                        .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
-                        .signature(ObjectKey(getString(R.string.guest)))
-                        .placeholder(R.drawable.resource_public)
-                        .error(R.drawable.resource_public)
-                        .into(ivAvatar)
+                    ivAvatar.loadImage(
+                        root.context,
+                        BuildConfig.BASE_URL_RANDOM_AVATAR,
+                    )
                 }
             }
         }

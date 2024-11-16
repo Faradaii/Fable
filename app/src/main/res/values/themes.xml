@@ -2,6 +2,12 @@
 
     <style name="Theme.Fable" parent="Theme.Material3.Light" />
 
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/md_theme_onPrimary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/fable</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
+    </style>
 
     <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>

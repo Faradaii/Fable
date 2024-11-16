@@ -15,7 +15,6 @@ import com.example.fable.view.signup.SignupViewModel
 import com.example.fable.view.splash.SplashScreenViewModel
 
 class ViewModelFactory(private val repository: StoryRepository) : ViewModelProvider.NewInstanceFactory() {
-
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {

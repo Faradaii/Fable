@@ -45,7 +45,6 @@ class HomeViewModelTest {
         homeViewModel = HomeViewModel(storyRepository)
     }
 
-
     @Test
     fun `when Get Stories Should Not Null and Return Data`() = runTest {
         val dummyStories = DataDummy.generateDummyStories()

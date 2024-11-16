@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.fable.R
 import com.example.fable.databinding.ActivityHomeBinding
+import com.example.fable.util.Util
 import com.example.fable.view.component.snackbar.MySnackBar
 import com.example.fable.view.create.CreateActivity
 import com.example.fable.view.explore.ExploreActivity
@@ -22,7 +23,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
-
     private val viewModel: HomeViewModel by lazy {
         val factory = ViewModelFactory.getInstance(this)
         factory.create(HomeViewModel::class.java)
@@ -32,7 +32,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -46,9 +45,9 @@ class HomeActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val pageTitle = when (destination.id) {
-                R.id.navigation_home -> "Home"
-                R.id.navigation_profile -> "Profile"
-                else -> "Fable"
+                R.id.navigation_home -> getString(R.string.title_home)
+                R.id.navigation_profile -> getString(R.string.title_profile)
+                else -> getString(R.string.app_name)
             }
             binding.topAppBar.title = pageTitle
         }
@@ -69,15 +68,14 @@ class HomeActivity : AppCompatActivity() {
                     viewModel.viewModelScope.launch {
                         viewModel.logout()
                     }
-                    MySnackBar.showSnackBar(binding.root, "Logout Successfully")
+                    MySnackBar.showSnackBar(binding.root, getString(R.string.logout_successfully))
                     Handler(Looper.getMainLooper()).postDelayed({
                         val intent = Intent(this, WelcomeActivity::class.java)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
-                    }, 1000)
+                    }, Util.ONE_SECOND)
                 }
-
                 else -> false
             }
         }
@@ -97,6 +95,5 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, CreateActivity::class.java)
             createActivityLauncher.launch(intent)
         }
-
     }
 }

@@ -1,12 +1,11 @@
 package com.example.fable.customView
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.addTextChangedListener
 import com.example.fable.R
 import com.google.android.material.textfield.TextInputLayout
 
@@ -36,10 +35,8 @@ class CustomEditText @JvmOverloads constructor(
     }
 
     private fun addValidation() {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        addTextChangedListener(
+            addTextChangedListener { s ->
                 inputLayout?.error = when (validationType) {
                     ValidationType.EMAIL -> validateEmail(s)
                     ValidationType.PASSWORD -> validatePassword(s)
@@ -47,9 +44,7 @@ class CustomEditText @JvmOverloads constructor(
                     else -> null
                 }
             }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        )
     }
 
     private fun validateEmail(s: CharSequence?): String? {

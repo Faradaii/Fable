@@ -1,4 +1,5 @@
 package com.example.fable.util
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -15,10 +16,12 @@ object Util {
 
     private const val MAXIMAL_SIZE = 1000000
     private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
+    const val TWO_SECONDS: Long = 2000
+    const val ONE_SECOND: Long = 1000
 
     fun formatDate(date: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale("id"))
+        val outputFormat = SimpleDateFormat("dd MMM yyyy HH:mm", Locale("id"))
 
         return try {
             val formatedDate = inputFormat.parse(date)

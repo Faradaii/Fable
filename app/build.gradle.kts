@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.espresso.idling.resource)
     implementation(libs.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
 
     ksp(libs.room.compiler)
 

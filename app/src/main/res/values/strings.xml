@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Fable</string>
     <string name="signup">Sign Up</string>
     <string name="login">Login</string>
@@ -10,8 +10,8 @@
     <string name="logout">Logout</string>
     <string name="logo_application">Logo Application</string>
     <string name="welcome_to_fable">Welcome to Fable</string>
-    <string name="please_fill_the_form_below_to_continue">Please fill the form below to continue</string>
-    <string name="don_t_have_an_account">Don\'t Have An Account?</string>
+    <string name="please_fill_the_form_below_to_continue" tools:ignore="UnusedResources">Please fill the form below to continue</string>
+    <string name="don_t_have_an_account" tools:ignore="UnusedResources">Don\'t Have An Account?</string>
     <string name="checkbox_agree">By signing up, you agree to our Terms of Service and Privacy Policy</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="title_activity_home">HomeActivity</string>
@@ -44,18 +44,36 @@
     <string name="fab_add_story">FAB Add Story</string>
     <string name="title_activity_explore">ExploreActivity</string>
     <string name="add_location">Add Location</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="asking_permission">Asking permission</string>
-    <string name="permission_needed">Permission Needed</string>
-    <string name="permission_needed_body">To use this feature, you need to accept the following permissions</string>
-    <string name="accept_permission">Accept Permission</string>
+    <string name="asking_permission" tools:ignore="UnusedResources">Asking permission</string>
+    <string name="permission_needed" tools:ignore="UnusedResources">Permission Needed</string>
+    <string name="permission_needed_body" tools:ignore="UnusedResources">To use this feature, you need to accept the following permissions</string>
+    <string name="accept_permission" tools:ignore="UnusedResources">Accept Permission</string>
     <string name="try_again">Try Again</string>
     <string name="email_cannot_be_empty">Email cannot be empty</string>
     <string name="email_is_not_valid">Email is not valid</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
     <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters</string>
     <string name="name_cannot_be_empty">Name cannot be empty</string>
-    <string name="logging_you_in">Logging you in...</string>
+    <string name="logging_you_in">Logging you in…</string>
     <string name="welcome_back">Welcome Back, %1$s !</string>
+    <string name="logout_successfully">Logout Successfully</string>
+    <string name="adding_you_to_our_world">Adding you to our world…</string>
+    <string name="register_successfully_please_login">Register Successfully, Please Login</string>
+    <string name="you_must_agree_to_the_terms_to_proceed">You must agree to the terms to proceed.</string>
+    <string name="title_explore">Explore</string>
+    <string name="getting_worldwide_stories">Getting worldwide stories…</string>
+    <string name="successfully_get_worldwide_stories">Successfully get worldwide stories</string>
+    <string name="viewing_s_story">Viewing %1$s\'s story…</string>
+    <string name="style_parsing_failed">Style parsing failed!</string>
+    <string name="cannot_find_style_map">Cannot find style map!</string>
+    <string name="adding_image_canceled">Adding image canceled</string>
+    <string name="please_add_a_photo_first">Please add a photo first</string>
+    <string name="please_add_a_description">Please add a description</string>
+    <string name="trying_to_share_your_story">Trying to share your story…</string>
+    <string name="your_story_has_been_shared">Your story has been shared!</string>
+    <string name="your_story_can_viewed_in_explore_page">Your story can viewed in Explore page</string>
+    <string name="please_enable_gps">Please enable GPS!</string>
+    <string name="failed_to_get_location">Failed to get location</string>
+    <string name="now_you_re_able_to_use_this_feature">Now you\'re able to use this feature</string>
+    <string name="oops_you_re_not_fully_able_to_use_this_feature">Oops, you\'re not fully able to use this feature</string>
 </resources>

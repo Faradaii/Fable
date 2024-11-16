@@ -4,7 +4,6 @@
     <color name="black">#FF000000</color>
     <color name="teal">#00ADB5</color>
     <color name="dark">#393E46</color>
-    <color name="gray_light">#D3D3D3</color>
 
     <color name="md_theme_primary">#00696E</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
