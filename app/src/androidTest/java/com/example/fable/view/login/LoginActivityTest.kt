@@ -7,6 +7,7 @@ import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -63,8 +64,10 @@ class LoginActivityTest {
         val invalidEmail = "email"
         val invalidPassword = "pass"
 
-        onView(withId(R.id.ed_login_email)).perform(click())
-        onView(withId(R.id.ed_login_email)).perform(typeText(invalidEmail), closeSoftKeyboard())
+        onView(withId(R.id.ed_login_email))
+            .perform(click())
+            .perform(typeText(invalidEmail), closeSoftKeyboard())
+
         onView(withId(R.id.emailEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.email_is_not_valid)))
@@ -72,17 +75,20 @@ class LoginActivityTest {
         )
 
         onView(withId(R.id.ed_login_email)).perform(clearText())
+
         onView(withId(R.id.emailEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.email_cannot_be_empty)))
             )
         )
 
-        onView(withId(R.id.ed_login_password)).perform(click())
-        onView(withId(R.id.ed_login_password)).perform(
-            typeText(invalidPassword),
-            closeSoftKeyboard()
-        )
+        onView(withId(R.id.ed_login_password))
+            .perform(click())
+            .perform(
+                typeText(invalidPassword),
+                closeSoftKeyboard()
+            )
+
         onView(withId(R.id.passwordEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.password_must_be_at_least_8_characters)))
@@ -90,11 +96,16 @@ class LoginActivityTest {
         )
 
         onView(withId(R.id.ed_login_password)).perform(clearText())
+
         onView(withId(R.id.passwordEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.password_cannot_be_empty)))
             )
         )
+
+        onView(withId(R.id.loginButton)).perform(click())
+
+        onView(withId(R.id.container_home_activity)).check(doesNotExist())
     }
 
     @Test
@@ -104,8 +115,10 @@ class LoginActivityTest {
 
         onView(withId(R.id.ed_login_email)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.ed_login_email)).perform(click())
-        onView(withId(R.id.ed_login_email)).perform(typeText(validEmail), closeSoftKeyboard())
+        onView(withId(R.id.ed_login_email))
+            .perform(click())
+            .perform(typeText(validEmail), closeSoftKeyboard())
+
         onView(withId(R.id.emailEditTextLayout)).check(
             matches(
                 allOf(
@@ -117,8 +130,10 @@ class LoginActivityTest {
 
         onView(withId(R.id.ed_login_password)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.ed_login_password)).perform(click())
-        onView(withId(R.id.ed_login_password)).perform(typeText(validPassword), closeSoftKeyboard())
+        onView(withId(R.id.ed_login_password))
+            .perform(click())
+            .perform(typeText(validPassword), closeSoftKeyboard())
+
         onView(withId(R.id.passwordEditTextLayout)).check(
             matches(
                 allOf(
@@ -137,7 +152,8 @@ class LoginActivityTest {
             IdlingRegistry.getInstance().unregister(waitActivityHome)
         }
 
-        onView(withId(R.id.topAppBar)).check(matches(isDisplayed()))
+        onView(withId(R.id.container_home_activity)).check(matches(isDisplayed()))
+
         onView(withId(R.id.action_logout)).perform(click())
 
         EspressoIdlingResource.increment()

@@ -99,7 +99,5 @@ dependencies {
     androidTestImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.espresso.intents)
-    androidTestImplementation(libs.mockwebserver)
-    androidTestImplementation(libs.okhttp3.okhttp.tls)
     androidTestImplementation(libs.androidx.navigation.testing)
 }
