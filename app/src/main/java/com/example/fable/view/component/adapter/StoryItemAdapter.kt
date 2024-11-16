@@ -8,12 +8,11 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.example.fable.BuildConfig
-import com.example.fable.R
 import com.example.fable.data.local.entity.Story
 import com.example.fable.databinding.StoryItemBinding
+import com.example.fable.view.component.myImageView.ImageView.loadImage
 import com.example.fable.view.detail.DetailActivity
 
 class StoryItemAdapter : PagingDataAdapter<Story, StoryItemAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -31,19 +30,15 @@ class StoryItemAdapter : PagingDataAdapter<Story, StoryItemAdapter.ViewHolder>(D
     class ViewHolder(private val binding: StoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listItem: Story){
             binding.apply {
-                Glide.with(root.context)
-                    .load(listItem.photoUrl)
-                    .placeholder(R.drawable.ic_image_24)
-                    .error(R.drawable.ic_image_24)
-                    .into(ivItemPhoto)
-
-                Glide.with(root.context)
-                    .load(BuildConfig.BASE_URL_RANDOM_AVATAR)
-                    .signature(ObjectKey(listItem.name.toString()))
-                    .placeholder(R.drawable.resource_public)
-                    .error(R.drawable.resource_public)
-                    .into(ivAvatarRandom)
-
+                ivItemPhoto.loadImage(
+                    root.context,
+                    listItem.photoUrl,
+                )
+                ivAvatarRandom.loadImage(
+                    root.context,
+                    BuildConfig.BASE_URL_RANDOM_AVATAR,
+                    signature = ObjectKey(listItem.name)
+                )
                 tvItemName.text = listItem.name
                 tvStoryDesc.text = listItem.description
 
@@ -72,5 +67,4 @@ class StoryItemAdapter : PagingDataAdapter<Story, StoryItemAdapter.ViewHolder>(D
             }
         }
     }
-
 }

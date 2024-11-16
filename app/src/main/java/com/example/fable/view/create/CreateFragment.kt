@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
+import com.example.fable.R
 import com.example.fable.data.Result
 import com.example.fable.databinding.FragmentCreateBinding
+import com.example.fable.util.Util
 import com.example.fable.util.Util.reduceFileImage
 import com.example.fable.util.Util.uriToFile
 import com.example.fable.view.ViewModelFactory
@@ -80,7 +82,7 @@ class CreateFragment : Fragment() {
             viewModel.currentImageUri = croppedImageUri
             showImage(croppedImageUri!!)
         } else {
-            showToast("Adding image canceled")
+            showToast(getString(R.string.adding_image_canceled))
         }
     }
 
@@ -102,11 +104,11 @@ class CreateFragment : Fragment() {
 
     private fun uploadStory() {
         if (viewModel.currentImageUri == null) {
-            showToast("Please add a photo first")
+            showToast(getString(R.string.please_add_a_photo_first))
             return
         }
         if (binding.edAddDescription.text.isNullOrEmpty()) {
-            showToast("Please add a description")
+            showToast(getString(R.string.please_add_a_description))
             return
         }
 
@@ -141,17 +143,20 @@ class CreateFragment : Fragment() {
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        showToast("Trying to share your story...")
+                        showToast(getString(R.string.trying_to_share_your_story))
                     }
                     is Result.Error -> {
                         showToast(result.error)
                     }
                     is Result.Success -> {
-                        MySnackBar.showSnackBar(binding.root, "Your story has been shared!")
+                        MySnackBar.showSnackBar(
+                            binding.root,
+                            getString(R.string.your_story_has_been_shared)
+                        )
                         Handler(Looper.getMainLooper()).postDelayed({
                             requireActivity().setResult(Activity.RESULT_OK)
                             requireActivity().finish()
-                        }, 1000)
+                        }, Util.ONE_SECOND)
                     }
                 }
             }
@@ -179,17 +184,20 @@ class CreateFragment : Fragment() {
                         this.location = location
                         MySnackBar.showSnackBar(
                             binding.root,
-                            "Your story can viewed in Explore page"
+                            getString(R.string.your_story_can_viewed_in_explore_page)
                         )
                         binding.swLocation.isChecked = true
                     } else {
-                        MySnackBar.showSnackBar(binding.root, "Please enable GPS!")
+                        MySnackBar.showSnackBar(binding.root, getString(R.string.please_enable_gps))
                         binding.swLocation.isChecked = false
                         requestSingleLocationUpdate()
                     }
                 }
                 .addOnFailureListener {
-                    MySnackBar.showSnackBar(binding.root, "Failed to get location")
+                    MySnackBar.showSnackBar(
+                        binding.root,
+                        getString(R.string.failed_to_get_location)
+                    )
                     binding.swLocation.isChecked = false
                 }
         } else {
@@ -200,7 +208,7 @@ class CreateFragment : Fragment() {
 
     private fun requestSingleLocationUpdate() {
         val locationRequest = LocationRequest.Builder(
-            Priority.PRIORITY_HIGH_ACCURACY, 1000
+            Priority.PRIORITY_HIGH_ACCURACY, Util.ONE_SECOND
         ).setMaxUpdates(1).build()
 
         locationCallback = object : LocationCallback() {

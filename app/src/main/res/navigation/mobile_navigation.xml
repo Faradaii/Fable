@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/navigation_home"
         android:name="com.example.fable.view.home.HomeFragment"
         android:label="@string/title_home"
         android:contentDescription="@string/title_home"
@@ -19,7 +19,7 @@
         tools:layout="@layout/fragment_create" />
 
     <fragment
-        android:id="@+id/nav_profile"
+        android:id="@+id/navigation_profile"
         android:name="com.example.fable.view.profile.ProfileFragment"
         android:contentDescription="@string/title_profile"
         android:label="@string/title_profile"

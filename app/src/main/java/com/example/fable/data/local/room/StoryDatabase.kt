@@ -18,7 +18,7 @@ abstract class StoryDatabase : RoomDatabase() {
     abstract fun remoteKeysDao(): RemoteKeysDao
 
     companion object {
-        const val DATABASE_NAME = "story.db"
+        private const val DATABASE_NAME = "story.db"
 
         @Volatile
         private var INSTANCE: StoryDatabase? = null

@@ -16,6 +16,7 @@ import com.example.fable.data.remote.response.GetDetailResponse
 import com.example.fable.data.remote.response.LoginResponse
 import com.example.fable.data.remote.response.MessageResponse
 import com.example.fable.data.remote.retrofit.ApiService
+import com.example.fable.util.Util
 import com.example.fable.util.wrapEspressoIdlingResource
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -86,7 +87,7 @@ class StoryRepository private constructor(
             val response = withContext(Dispatchers.IO) {
                 apiService.getAllStories(page, size, location)
             }
-            delay(2000)
+            delay(Util.TWO_SECONDS)
             emit(Result.Success(response))
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
@@ -166,7 +167,6 @@ class StoryRepository private constructor(
     suspend fun logout() {
         userPreference.logout()
     }
-
 
     companion object {
         @Volatile

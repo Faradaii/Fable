@@ -51,5 +51,4 @@ interface ApiService {
     suspend fun getDetailStory(
         @Path("storyId") storyId: String
     ): GetDetailResponse
-
 }

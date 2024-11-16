@@ -44,7 +44,6 @@
     <string name="fab_add_story">FAB Add Story</string>
     <string name="title_activity_explore">ExploreActivity</string>
     <string name="add_location">Add Location</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="asking_permission">Asking permission</string>
     <string name="permission_needed">Permission Needed</string>
@@ -58,4 +57,25 @@
     <string name="name_cannot_be_empty">Name cannot be empty</string>
     <string name="logging_you_in">Logging you in...</string>
     <string name="welcome_back">Welcome Back, %1$s !</string>
+    <string name="pattern_email">^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$</string>
+    <string name="logout_successfully">Logout Successfully</string>
+    <string name="adding_you_to_our_world">Adding you to our world...</string>
+    <string name="register_successfully_please_login">Register Successfully, Please Login</string>
+    <string name="you_must_agree_to_the_terms_to_proceed">You must agree to the terms to proceed.</string>
+    <string name="title_explore">Explore</string>
+    <string name="getting_worldwide_stories">Getting worldwide stories...</string>
+    <string name="successfully_get_worldwide_stories">Successfully get worldwide stories</string>
+    <string name="viewing_s_story">Viewing %1$s\'s story...</string>
+    <string name="style_parsing_failed">Style parsing failed!</string>
+    <string name="cannot_find_style_map">Cannot find style map!</string>
+    <string name="adding_image_canceled">Adding image canceled</string>
+    <string name="please_add_a_photo_first">Please add a photo first</string>
+    <string name="please_add_a_description">Please add a description</string>
+    <string name="trying_to_share_your_story">Trying to share your story...</string>
+    <string name="your_story_has_been_shared">Your story has been shared!</string>
+    <string name="your_story_can_viewed_in_explore_page">Your story can viewed in Explore page</string>
+    <string name="please_enable_gps">Please enable GPS!</string>
+    <string name="failed_to_get_location">Failed to get location</string>
+    <string name="now_you_re_able_to_use_this_feature">Now you\'re able to use this feature</string>
+    <string name="oops_you_re_not_fully_able_to_use_this_feature">Oops, you\'re not fully able to use this feature</string>
 </resources>

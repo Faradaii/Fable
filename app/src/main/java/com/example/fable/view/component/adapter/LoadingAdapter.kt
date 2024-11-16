@@ -24,10 +24,6 @@ class LoadingAdapter(private val retry: () -> Unit) :
         holder.bind(loadState)
     }
 
-    override fun getStateViewType(loadState: LoadState): Int {
-        return if (loadState is LoadState.Error || loadState is LoadState.Loading) TWO_SPAN else 0
-    }
-
     class LoadingStateViewHolder(private val binding: LoadingAdapterBinding, retry: () -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         init {
@@ -42,9 +38,5 @@ class LoadingAdapter(private val retry: () -> Unit) :
             binding.retryButton.isVisible = loadState is LoadState.Error
             binding.errorMsg.isVisible = loadState is LoadState.Error
         }
-    }
-
-    companion object {
-        const val TWO_SPAN = 2
     }
 }

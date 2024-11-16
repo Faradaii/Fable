@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fable.databinding.FragmentHomeBinding
+import com.example.fable.util.Util
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.component.adapter.LoadingAdapter
 import com.example.fable.view.component.adapter.StoryItemAdapter
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
             storyAdapter.refresh()
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.gridStories.swipeRefresh.isRefreshing = false
-            }, 2000)
+            }, Util.TWO_SECONDS)
         }
     }
 

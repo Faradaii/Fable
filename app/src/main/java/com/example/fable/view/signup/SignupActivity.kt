@@ -12,9 +12,11 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fable.R
 import com.example.fable.customView.CustomEditText
 import com.example.fable.data.Result
 import com.example.fable.databinding.ActivitySignupBinding
+import com.example.fable.util.Util
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.component.snackbar.MySnackBar
 import com.example.fable.view.login.LoginActivity
@@ -61,7 +63,7 @@ class SignupActivity : AppCompatActivity() {
                             is Result.Loading -> {
                                 Toast.makeText(
                                     this,
-                                    "Adding you to our world...",
+                                    getString(R.string.adding_you_to_our_world),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -74,13 +76,13 @@ class SignupActivity : AppCompatActivity() {
                             is Result.Success -> {
                                 MySnackBar.showSnackBar(
                                     binding.root,
-                                    "Register Successfully, Please Login"
+                                    getString(R.string.register_successfully_please_login)
                                 )
                                 Handler(Looper.getMainLooper()).postDelayed({
                                     val intent = Intent(this, LoginActivity::class.java)
                                     startActivity(intent)
                                     finish()
-                                }, 1000)
+                                }, Util.ONE_SECOND)
                             }
                         }
                     }
@@ -98,7 +100,7 @@ class SignupActivity : AppCompatActivity() {
     private fun validateCheckbox(): Boolean {
 
         binding.checkboxEditTextLayout.error = when {
-            !binding.checkBox.isChecked -> "You must agree to the terms to proceed."
+            !binding.checkBox.isChecked -> getString(R.string.you_must_agree_to_the_terms_to_proceed)
             else -> null
         }
 

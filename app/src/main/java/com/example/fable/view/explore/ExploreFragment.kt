@@ -25,6 +25,7 @@ import com.bumptech.glide.signature.ObjectKey
 import com.example.fable.R
 import com.example.fable.data.Result
 import com.example.fable.databinding.FragmentExploreBinding
+import com.example.fable.util.Util
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.component.bottomsheet.PermissionBottomSheet
 import com.example.fable.view.component.snackbar.MySnackBar
@@ -41,7 +42,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import jp.wasabeef.glide.transformations.CropCircleWithBorderTransformation
 
 class ExploreFragment : Fragment(), OnMapReadyCallback {
-
     private lateinit var mMap: GoogleMap
     private var _binding: FragmentExploreBinding? = null
     private val binding get() = _binding!!
@@ -66,7 +66,7 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        binding.topAppBar.title = "Explore"
+        binding.topAppBar.title = getString(R.string.title_explore)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -100,7 +100,10 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        Toast.makeText(context, "Getting worldwide stories...", Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            context,
+                            getString(R.string.getting_worldwide_stories), Toast.LENGTH_SHORT
+                        )
                             .show()
                     }
 
@@ -109,10 +112,14 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     is Result.Success -> {
-                        MySnackBar.showSnackBar(binding.root, "Successfully get worldwide stories")
+                        MySnackBar.showSnackBar(
+                            binding.root,
+                            getString(R.string.successfully_get_worldwide_stories)
+                        )
 
                         result.data.listStory.forEach { data ->
                             val latLng = LatLng(data.lat!!, data.lon!!)
+                            boundsBuilder.include(latLng)
 
                             Glide.with(binding.root.context)
                                 .asBitmap()
@@ -151,7 +158,6 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
 
                                     override fun onLoadCleared(placeholder: Drawable?) {}
                                 })
-                            boundsBuilder.include(latLng)
                         }
 
                         mMap.setOnMarkerClickListener { marker ->
@@ -159,7 +165,7 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
                                 marker.showInfoWindow()
                                 Toast.makeText(
                                     context,
-                                    "Viewing ${marker.title}'s story...",
+                                    getString(R.string.viewing_s_story, marker.title),
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()
@@ -175,7 +181,7 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
                                         )
                                             .toBundle()
                                     )
-                                }, 2000)
+                                }, Util.TWO_SECONDS)
                             }
                             true
                         }
@@ -186,7 +192,7 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
                                 bounds,
                                 resources.displayMetrics.widthPixels,
                                 resources.displayMetrics.heightPixels,
-                                300
+                                0
                             )
                         )
                     }
@@ -201,10 +207,10 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
                 MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style)
             )
             if (!success) {
-                MySnackBar.showSnackBar(binding.root, "Style parsing failed!")
+                MySnackBar.showSnackBar(binding.root, getString(R.string.style_parsing_failed))
             }
         } catch (exception: Resources.NotFoundException) {
-            MySnackBar.showSnackBar(binding.root, "Cannot find style map!")
+            MySnackBar.showSnackBar(binding.root, getString(R.string.cannot_find_style_map))
         }
     }
 

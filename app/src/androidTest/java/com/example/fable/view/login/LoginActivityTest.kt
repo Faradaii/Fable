@@ -22,6 +22,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.example.fable.R
 import com.example.fable.util.EspressoIdlingResource
+import com.example.fable.util.Util
 import com.example.fable.util.WaitActivityIsResumedIdlingResource
 import com.example.fable.view.HomeActivity
 import com.example.fable.view.welcome.WelcomeActivity
@@ -33,11 +34,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class LoginActivityTest {
-
     @get:Rule
     val activity = ActivityScenarioRule(LoginActivity::class.java)
 
@@ -67,7 +66,6 @@ class LoginActivityTest {
         onView(withId(R.id.ed_login_email))
             .perform(click())
             .perform(typeText(invalidEmail), closeSoftKeyboard())
-
         onView(withId(R.id.emailEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.email_is_not_valid)))
@@ -75,7 +73,6 @@ class LoginActivityTest {
         )
 
         onView(withId(R.id.ed_login_email)).perform(clearText())
-
         onView(withId(R.id.emailEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.email_cannot_be_empty)))
@@ -88,7 +85,6 @@ class LoginActivityTest {
                 typeText(invalidPassword),
                 closeSoftKeyboard()
             )
-
         onView(withId(R.id.passwordEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.password_must_be_at_least_8_characters)))
@@ -96,7 +92,6 @@ class LoginActivityTest {
         )
 
         onView(withId(R.id.ed_login_password)).perform(clearText())
-
         onView(withId(R.id.passwordEditTextLayout)).check(
             matches(
                 hasDescendant(withText(resources.getString(R.string.password_cannot_be_empty)))
@@ -114,11 +109,9 @@ class LoginActivityTest {
         val validPassword = "usertest"
 
         onView(withId(R.id.ed_login_email)).check(matches(isDisplayed()))
-
         onView(withId(R.id.ed_login_email))
             .perform(click())
             .perform(typeText(validEmail), closeSoftKeyboard())
-
         onView(withId(R.id.emailEditTextLayout)).check(
             matches(
                 allOf(
@@ -129,11 +122,9 @@ class LoginActivityTest {
         )
 
         onView(withId(R.id.ed_login_password)).check(matches(isDisplayed()))
-
         onView(withId(R.id.ed_login_password))
             .perform(click())
             .perform(typeText(validPassword), closeSoftKeyboard())
-
         onView(withId(R.id.passwordEditTextLayout)).check(
             matches(
                 allOf(
@@ -153,11 +144,10 @@ class LoginActivityTest {
         }
 
         onView(withId(R.id.container_home_activity)).check(matches(isDisplayed()))
-
         onView(withId(R.id.action_logout)).perform(click())
 
         EspressoIdlingResource.increment()
-        Thread.sleep(1000)
+        Thread.sleep(Util.ONE_SECOND)
         EspressoIdlingResource.decrement()
 
         intended(hasComponent(WelcomeActivity::class.java.name))

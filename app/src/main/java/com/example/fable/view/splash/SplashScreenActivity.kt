@@ -12,7 +12,9 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.fable.databinding.ActivitySplashScreenBinding
+import com.example.fable.util.Util
 import com.example.fable.view.HomeActivity
 import com.example.fable.view.ViewModelFactory
 import com.example.fable.view.welcome.WelcomeActivity
@@ -23,6 +25,7 @@ class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -36,12 +39,12 @@ class SplashScreenActivity : AppCompatActivity() {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
-                }, 2000)
+                }, Util.TWO_SECONDS)
             } else {
                 Handler(Looper.getMainLooper()).postDelayed({
                     startActivity(Intent(this, HomeActivity::class.java))
                     finish()
-                }, 2000)
+                }, Util.TWO_SECONDS)
             }
         }
 
