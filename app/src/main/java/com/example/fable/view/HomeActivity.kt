@@ -3,18 +3,30 @@ package com.example.fable.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.fable.R
 import com.example.fable.databinding.ActivityHomeBinding
+import com.example.fable.view.component.snackbar.MySnackBar
 import com.example.fable.view.create.CreateActivity
 import com.example.fable.view.explore.ExploreActivity
 import com.example.fable.view.home.HomeFragment
+import com.example.fable.view.home.HomeViewModel
+import com.example.fable.view.welcome.WelcomeActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
+
+    private val viewModel: HomeViewModel by lazy {
+        val factory = ViewModelFactory.getInstance(this)
+        factory.create(HomeViewModel::class.java)
+    }
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -45,6 +57,29 @@ class HomeActivity : AppCompatActivity() {
         binding.topAppBar.setNavigationOnClickListener {
             val intent = Intent(this, ExploreActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.topAppBar.inflateMenu(
+            R.menu.top_appbar_menu
+        )
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_logout -> {
+                    viewModel.viewModelScope.launch {
+                        viewModel.logout()
+                    }
+                    MySnackBar.showSnackBar(binding.root, "Logout Successfully")
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val intent = Intent(this, WelcomeActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }, 1000)
+                }
+
+                else -> false
+            }
         }
 
         val createActivityLauncher = registerForActivityResult(

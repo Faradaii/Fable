@@ -16,6 +16,7 @@ import com.example.fable.data.remote.response.GetDetailResponse
 import com.example.fable.data.remote.response.LoginResponse
 import com.example.fable.data.remote.response.MessageResponse
 import com.example.fable.data.remote.retrofit.ApiService
+import com.example.fable.util.wrapEspressoIdlingResource
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -51,25 +52,27 @@ class StoryRepository private constructor(
 
     fun login(email: String, password: String): LiveData<Result<LoginResponse>> = liveData {
         emit(Result.Loading)
-        try {
-            val message = apiService.login(email, password)
-            val userLogged = UserModel(
-                message.loginResult!!.userId.toString(),
-                email,
-                message.loginResult.name.toString(),
-                message.loginResult.token.toString(),
-                true
-            )
-            saveSession(userLogged)
-            emit(Result.Success(message))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
-            emit(Result.Error(errorResponse.message!!))
-        } catch (e: SocketTimeoutException) {
-            emit(Result.Error("Request timed out. Please try again."))
-        } catch (e: Exception) {
-            emit(Result.Error("An unexpected error occurred"))
+        wrapEspressoIdlingResource {
+            try {
+                val message = apiService.login(email, password)
+                val userLogged = UserModel(
+                    message.loginResult!!.userId.toString(),
+                    email,
+                    message.loginResult.name.toString(),
+                    message.loginResult.token.toString(),
+                    true
+                )
+                saveSession(userLogged)
+                emit(Result.Success(message))
+            } catch (e: HttpException) {
+                val jsonInString = e.response()?.errorBody()?.string()
+                val errorResponse = Gson().fromJson(jsonInString, MessageResponse::class.java)
+                emit(Result.Error(errorResponse.message!!))
+            } catch (e: SocketTimeoutException) {
+                emit(Result.Error("Request timed out. Please try again."))
+            } catch (e: Exception) {
+                emit(Result.Error("An unexpected error occurred"))
+            }
         }
     }
 

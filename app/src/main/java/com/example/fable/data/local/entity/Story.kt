@@ -12,16 +12,16 @@ data class Story(
     val id: String,
 
     @field:SerializedName("photoUrl")
-    val photoUrl: String? = null,
+    val photoUrl: String,
 
     @field:SerializedName("createdAt")
-    val createdAt: String? = null,
+    val createdAt: String,
 
     @field:SerializedName("name")
-    val name: String? = null,
+    val name: String,
 
     @field:SerializedName("description")
-    val description: String? = null,
+    val description: String,
 
     @field:SerializedName("lon")
     val lon: Double? = null,
