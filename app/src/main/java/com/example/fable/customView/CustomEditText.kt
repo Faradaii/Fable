@@ -48,7 +48,7 @@ class CustomEditText @JvmOverloads constructor(
     }
 
     private fun validateEmail(s: CharSequence?): String? {
-        val emailPattern = context.getString(R.string.pattern_email)
+        val emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$"
         return when {
             s.isNullOrEmpty() -> context.getString(R.string.email_cannot_be_empty)
             !s.matches(Regex(emailPattern)) -> context.getString(R.string.email_is_not_valid)

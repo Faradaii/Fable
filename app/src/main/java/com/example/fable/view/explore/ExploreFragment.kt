@@ -59,8 +59,10 @@ class ExploreFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, ViewModelFactory.getInstance(requireContext()))
-            .get(ExploreViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelFactory.getInstance(requireContext())
+        )[ExploreViewModel::class.java]
 
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment

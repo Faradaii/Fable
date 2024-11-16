@@ -105,8 +105,8 @@ class LoginActivityTest {
 
     @Test
     fun loginWithValidDataAndLogout() {
-        val validEmail = "usertest@test.com"
-        val validPassword = "usertest"
+        val validEmail = "user@test.id"
+        val validPassword = "userTest"
 
         onView(withId(R.id.ed_login_email)).check(matches(isDisplayed()))
         onView(withId(R.id.ed_login_email))
