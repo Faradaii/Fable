@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-11-16T07:46:40.730921800Z">
+        <DropdownSelection timestamp="2024-11-16T08:27:53.217154600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\faradaii\.android\avd\Pixel_9_Pro_API_30.avd" />
@@ -26,10 +26,10 @@
       </SelectionState>
       <SelectionState runConfigName="LoginActivityTest">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-11-16T05:06:34.101146300Z">
+        <DropdownSelection timestamp="2024-11-16T08:30:58.606568800Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\faradaii\.android\avd\Pixel_9_Pro_API_30.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=33e56dd8" />
             </handle>
           </Target>
         </DropdownSelection>
